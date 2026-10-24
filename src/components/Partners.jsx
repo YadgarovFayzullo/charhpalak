@@ -6,7 +6,7 @@ const ROLES = [
 
 export default function Partners() {
   return (
-    <section className="partners">
+    <section className="partners" id="partners">
       <div className="wrap partners-grid">
         <div className="stack-8">
           <span className="ey ey-ink">Hamkorlik</span>

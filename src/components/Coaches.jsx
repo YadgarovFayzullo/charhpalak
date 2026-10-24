@@ -5,7 +5,7 @@ const COACHES = [
 
 export default function Coaches() {
   return (
-    <section className="light">
+    <section className="light" id="coaches">
       <div className="wrap section coaches-grid">
         <div className="stack-20">
           <span className="ey ey-dark">Murabbiylar</span>

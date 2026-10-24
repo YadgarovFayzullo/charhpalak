@@ -18,7 +18,7 @@ const STATS = [
 
 export default function Business() {
   return (
-    <section className="business">
+    <section className="business" id="business">
       <div className="wrap section biz-grid">
         <div className="stack-22">
           <span className="ey">Klublar uchun · KiGo Business</span>

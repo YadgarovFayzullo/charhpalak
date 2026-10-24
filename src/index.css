@@ -23,6 +23,13 @@
 
 * { box-sizing: border-box; }
 
+html { scroll-behavior: smooth; }
+section[id], [id="search"] { scroll-margin-top: 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 body {
   margin: 0;
   background: var(--bg);

@@ -1,7 +1,18 @@
 import { Logo, Arrow, Check, Ball, Pin, Calendar, Search } from './icons.jsx'
 
-const NAV = ['O‘yinchilar', 'Klublar', 'Murabbiylar', 'Turnirlar']
-const QUICK = ['Sherik yoki raqib', 'Sport joyi', 'Murabbiy', 'Turnir']
+export const NAV = [
+  { label: 'O‘yinchilar', href: '#how' },
+  { label: 'Klublar', href: '#business' },
+  { label: 'Murabbiylar', href: '#coaches' },
+  { label: 'Turnirlar', href: '#tournaments' },
+]
+
+const QUICK = [
+  { label: 'Sherik yoki raqib', href: '#how' },
+  { label: 'Sport joyi', href: '#business' },
+  { label: 'Murabbiy', href: '#coaches' },
+  { label: 'Turnir', href: '#tournaments' },
+]
 
 const FIELDS = [
   { id: 'sport', label: 'Sport turi', Icon: Ball, options: ['Bilyard', 'Futbol', 'Padel', 'Tennis', 'Kompyuter klubi'] },
@@ -11,15 +22,15 @@ const FIELDS = [
 
 export default function Hero() {
   return (
-    <section className="hero">
+    <section className="hero" id="top">
       <header className="wrap header">
-        <a href="#" className="d logo"><Logo />KiGo</a>
+        <a href="#top" className="d logo"><Logo />KiGo</a>
         <nav className="nav header-nav" aria-label="Asosiy bo‘limlar">
-          {NAV.map((n) => <a key={n} href="#">{n}</a>)}
+          {NAV.map((n) => <a key={n.label} href={n.href}>{n.label}</a>)}
         </nav>
         <div className="header-actions">
-          <a href="#" className="login">Kirish</a>
-          <a href="#" className="btn bp btn-sm">Boshlash</a>
+          <a href="#how" className="login">Kirish</a>
+          <a href="#how" className="btn bp btn-sm">Boshlash</a>
         </div>
       </header>
 
@@ -33,8 +44,8 @@ export default function Hero() {
             Sherik toping, joy bron qiling, birga o‘ynang. Bilyard, futbol, padel, tennis va boshqa sport turlari bir joyda.
           </p>
           <div className="row">
-            <a href="#" className="btn bp btn-lg">O‘yin topish <Arrow /></a>
-            <a href="#" className="btn bo btn-lg">Klubni ulash</a>
+            <a href="#search" className="btn bp btn-lg">O‘yin topish <Arrow /></a>
+            <a href="#business" className="btn bo btn-lg">Klubni ulash</a>
           </div>
         </div>
 
@@ -53,7 +64,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="wrap search-wrap">
+      <div className="wrap search-wrap" id="search">
         <form className="search" onSubmit={(e) => e.preventDefault()}>
           {FIELDS.map(({ id, label, Icon, options, narrow }) => (
             <label key={id} htmlFor={id} className={narrow ? 'field field-narrow' : 'field'}>
@@ -69,7 +80,7 @@ export default function Hero() {
           <button type="submit" className="btn bp search-btn"><Search />Qidirish</button>
         </form>
         <div className="quick">
-          {QUICK.map((q) => <a key={q} href="#" className="chip">{q}</a>)}
+          {QUICK.map((q) => <a key={q.label} href={q.href} className="chip">{q.label}</a>)}
         </div>
       </div>
     </section>

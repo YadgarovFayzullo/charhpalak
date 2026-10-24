@@ -7,7 +7,7 @@ const STEPS = [
 
 export default function Steps() {
   return (
-    <section className="wrap section stack-36">
+    <section className="wrap section stack-36" id="how">
       <div className="section-head">
         <h2 className="d h2">Qanday boshlaysiz?</h2>
         <p className="mu head-note">To‘rt qadam. Ro‘yxatdan o‘tish bir daqiqa oladi, ko‘rish uchun esa umuman shart emas.</p>

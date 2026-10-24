@@ -25,7 +25,7 @@ export default function Tournaments() {
   const cards = CARDS.filter((c) => c.s === tab)
 
   return (
-    <section className="wrap section stack-32">
+    <section className="wrap section stack-32" id="tournaments">
       <div className="section-head">
         <div className="stack-14">
           <span className="ey">Turnirlar</span>
