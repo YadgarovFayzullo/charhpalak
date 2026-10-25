@@ -17,6 +17,14 @@ const SPORTS = ['Bilyard', 'Futbol', 'Padel', 'Tennis', 'Basketbol', 'Suzish', '
 const LEVELS = ['Boshlang‘ich', 'O‘rta', 'Kuchli']
 const AREAS = ['Yunusobod', 'Chilonzor', 'Mirzo Ulug‘bek', 'Shayxontohur', 'Yakkasaroy', 'Sergeli']
 
+// Where each role continues after onboarding.
+const ROLE_NEXT = {
+  p: ['/'],
+  c: ['/business'],
+  m: ['/business', { kind: 'coach' }],
+  t: ['/tournament-apply'],
+}
+
 const keys = (o) => Object.keys(o).filter((k) => o[k])
 const toSet = (arr, fallback) => Object.fromEntries((arr?.length ? arr : fallback).map((k) => [k, true]))
 
@@ -26,19 +34,22 @@ export default function Start() {
   const user = me.data
   const { run, busy, toast } = useAction()
   const [step, setStep] = useState(1)
-  const [roles, setRoles] = useState(toSet(user.roles, ['p']))
+  const [role, setRole] = useState(ROLE_NEXT[user.roles?.[0]] ? user.roles[0] : 'p')
   const [sports, setSports] = useState(toSet(user.sports, ['Bilyard', 'Futbol']))
   const [level, setLevel] = useState(user.level || 'O‘rta')
   const [areas, setAreas] = useState(toSet(user.areas, ['Yunusobod']))
   const [askPhone, setAskPhone] = useState(false)
 
   const finish = async (phone) => {
-    const body = { roles: keys(roles), sports: keys(sports), level, areas: keys(areas), onboarded: true }
+    const body = { roles: [role], sports: keys(sports), level, areas: keys(areas), onboarded: true }
     if (phone) body.phone = phone
     const updated = await run(() => api('/api/me', { method: 'PATCH', body }))
     if (!updated) return
     me.setData(updated)
+    // Players land on the home screen; others go straight to their flow, with home underneath for "back".
+    const [path, state] = ROLE_NEXT[role]
     navigate('/', { replace: true })
+    if (path !== '/') navigate(path, { state })
   }
 
   const next = () => {
@@ -65,19 +76,22 @@ export default function Start() {
               </span>
             </div>
             <h1 className="d fs30 lh-tight">Xush kelibsiz! KiGo’da nima qilasiz?</h1>
-            <span className="mu fs14">Bir nechtasini tanlash mumkin. Keyin profilda o‘zgartirasiz.</span>
-            {ROLES.map(([id, title, sub]) => (
-              <button
-                key={id}
-                type="button"
-                className={roles[id] ? 'role on' : 'role'}
-                aria-pressed={Boolean(roles[id])}
-                onClick={() => { haptic('light'); setRoles({ ...roles, [id]: !roles[id] }) }}
-              >
-                <span className="ck">{roles[id] ? '✓' : ''}</span>
-                <span className="col"><b className="fs16">{title}</b><span className="mu fs13">{sub}</span></span>
-              </button>
-            ))}
+            <span className="mu fs14">Bittasini tanlang. Keyin profilda o‘zgartirasiz.</span>
+            <div className="col gap-16" role="radiogroup" aria-label="Rolingiz">
+              {ROLES.map(([id, title, sub]) => (
+                <button
+                  key={id}
+                  type="button"
+                  role="radio"
+                  className={role === id ? 'role on' : 'role'}
+                  aria-checked={role === id}
+                  onClick={() => { haptic('light'); setRole(id) }}
+                >
+                  <span className="ck radio" />
+                  <span className="col"><b className="fs16">{title}</b><span className="mu fs13">{sub}</span></span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
 

@@ -178,6 +178,8 @@ a.card:hover { color: var(--ink); border-color: var(--line-chip); }
 .role.on { border-color: var(--lime); background: rgba(200, 242, 90, .08); }
 .ck { width: 24px; height: 24px; border-radius: 7px; border: 2px solid #4A6A56; flex: none; display: grid; place-items: center; font-size: 14px; color: var(--dark); font-weight: 800; }
 .role.on .ck { background: var(--lime); border-color: var(--lime); }
+.ck.radio { border-radius: 50%; }
+.role.on .ck.radio { background: transparent; border: 7px solid var(--lime); }
 
 /* Home */
 .profile-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--lime); color: var(--dark); display: grid; place-items: center; font-weight: 700; text-decoration: none; position: relative; flex: none; }
