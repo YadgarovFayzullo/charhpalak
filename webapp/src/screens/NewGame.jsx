@@ -1,20 +1,45 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Screen from '../components/Screen.jsx'
 import { ChipGroup, ToggleRow } from '../components/ui.jsx'
+import { useAction } from '../components/useAction.jsx'
+import { api } from '../api.js'
 import { haptic } from '../telegram.js'
+
+const WEEKDAYS = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba']
+
+// Today, tomorrow and the next 5 days as chip labels → ISO dates.
+function dayOptions() {
+  const base = new Date()
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(base)
+    d.setDate(base.getDate() + i)
+    const label = i === 0 ? 'Bugun' : i === 1 ? 'Ertaga' : WEEKDAYS[d.getDay()]
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+    return { label, iso }
+  })
+}
 
 export default function NewGame() {
   const navigate = useNavigate()
+  const days = dayOptions()
+  const { run, busy, toast } = useAction()
   const [sport, setSport] = useState('Futbol')
-  const [day, setDay] = useState('Shanba')
+  const [day, setDay] = useState(days[1].label)
   const [time, setTime] = useState('19:00')
+  const [place, setPlace] = useState('«Arena» maydoni, 6×6')
   const [need, setNeed] = useState(2)
   const [level, setLevel] = useState('O‘rta')
   const [price, setPrice] = useState('30 000 so‘m')
   const [toGroup, setToGroup] = useState(true)
 
-  const publish = () => {
+  const publish = async () => {
+    const date = days.find((d) => d.label === day).iso
+    const game = await run(() => api('/api/games', {
+      method: 'POST',
+      body: { sport, level, date, time, place, need, price: price.replace(/\s*so‘m$/, '') + '/kishi', to_group: toGroup },
+    }))
+    if (!game) return
     haptic('heavy')
     navigate('/games', { replace: true })
   }
@@ -29,12 +54,12 @@ export default function NewGame() {
         </div>
 
         <div className="col gap-10"><span className="lb">Qachon</span>
-          <ChipGroup options={['Bugun', 'Ertaga', 'Shanba', 'Yakshanba']} value={day} onChange={setDay} scroll />
-          <ChipGroup options={['17:00', '18:00', '19:00', '20:00', '21:00']} value={time} onChange={setTime} scroll />
+          <ChipGroup options={days.map((d) => d.label)} value={day} onChange={setDay} scroll />
+          <ChipGroup options={['08:00', '10:00', '17:00', '18:00', '19:00', '20:00', '21:00']} value={time} onChange={setTime} scroll />
         </div>
 
-        <div className="col gap-10"><span className="lb">Joy</span>
-          <Link to="/search" className="sel-link"><span>«Arena» maydoni, 6×6</span><span className="mu">O‘zgartirish ›</span></Link>
+        <div className="fl"><label htmlFor="pl" className="lb" style={{ color: 'var(--ink)' }}>Joy</label>
+          <input id="pl" value={place} onChange={(e) => setPlace(e.target.value)} style={{ minHeight: 52 }} />
           <span className="mu fs12">Joy hali bron qilinmagan. E’londan keyin bron qilishingiz mumkin.</span>
         </div>
 
@@ -58,7 +83,8 @@ export default function NewGame() {
         <ToggleRow title="Telegram guruhga ham yuborish" hint={`«Toshkent ${sport.toLowerCase()}» guruhiga e’lon tushadi`} on={toGroup} onToggle={() => setToGroup(!toGroup)} />
       </div>
 
-      <div className="mb"><button type="button" className="mbb" onClick={publish}>E’lon qilish</button></div>
+      {toast}
+      <div className="mb"><button type="button" className="mbb" disabled={busy || !place.trim()} onClick={publish}>E’lon qilish</button></div>
     </Screen>
   )
 }

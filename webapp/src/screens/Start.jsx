@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Screen from '../components/Screen.jsx'
 import { Bars, ChipGroup, MultiChips, Sheet } from '../components/ui.jsx'
-import { getUser, haptic, inTelegram, requestPhone } from '../telegram.js'
-import { savePrefs } from '../storage.js'
+import { useAction } from '../components/useAction.jsx'
+import { haptic, inTelegram, requestPhone } from '../telegram.js'
+import { api } from '../api.js'
+import { useMe } from '../me.jsx'
 
 const ROLES = [
   ['p', 'O‘ynayman', 'Sherik topish, joy bron qilish, turnirlar'],
@@ -15,18 +17,27 @@ const SPORTS = ['Bilyard', 'Futbol', 'Padel', 'Tennis', 'Basketbol', 'Suzish', '
 const LEVELS = ['Boshlang‘ich', 'O‘rta', 'Kuchli']
 const AREAS = ['Yunusobod', 'Chilonzor', 'Mirzo Ulug‘bek', 'Shayxontohur', 'Yakkasaroy', 'Sergeli']
 
+const keys = (o) => Object.keys(o).filter((k) => o[k])
+const toSet = (arr, fallback) => Object.fromEntries((arr?.length ? arr : fallback).map((k) => [k, true]))
+
 export default function Start() {
   const navigate = useNavigate()
-  const user = getUser()
+  const me = useMe()
+  const user = me.data
+  const { run, busy, toast } = useAction()
   const [step, setStep] = useState(1)
-  const [roles, setRoles] = useState({ p: true })
-  const [sports, setSports] = useState({ Bilyard: true, Futbol: true })
-  const [level, setLevel] = useState('O‘rta')
-  const [areas, setAreas] = useState({ Yunusobod: true })
+  const [roles, setRoles] = useState(toSet(user.roles, ['p']))
+  const [sports, setSports] = useState(toSet(user.sports, ['Bilyard', 'Futbol']))
+  const [level, setLevel] = useState(user.level || 'O‘rta')
+  const [areas, setAreas] = useState(toSet(user.areas, ['Yunusobod']))
   const [askPhone, setAskPhone] = useState(false)
 
-  const finish = (phoneShared) => {
-    savePrefs({ done: true, roles, sports, level, areas, phoneShared: Boolean(phoneShared) })
+  const finish = async (phone) => {
+    const body = { roles: keys(roles), sports: keys(sports), level, areas: keys(areas), onboarded: true }
+    if (phone) body.phone = phone
+    const updated = await run(() => api('/api/me', { method: 'PATCH', body }))
+    if (!updated) return
+    me.setData(updated)
     navigate('/', { replace: true })
   }
 
@@ -34,8 +45,9 @@ export default function Start() {
     haptic('medium')
     if (step < 3) return setStep(step + 1)
     // In Telegram the native contact dialog is used; in a browser we show the design's sheet.
-    if (inTelegram) requestPhone(finish)
-    else setAskPhone(true)
+    if (inTelegram && !user.phone) requestPhone(finish)
+    else if (!inTelegram && !user.phone) setAskPhone(true)
+    else finish()
   }
 
   return (
@@ -96,13 +108,16 @@ export default function Start() {
         <Sheet onClose={() => setAskPhone(false)}>
           <span className="mu fs12 center">Telegram oynasi</span>
           <b className="fs17 center">KiGo telefon raqamingizni so‘rayapti</b>
-          <button type="button" className="mbb" onClick={() => finish(true)}>Raqamni ulashish</button>
-          <button type="button" className="ghost-btn" onClick={() => finish(false)}>Keyinroq</button>
+          <button type="button" className="mbb" disabled={busy} onClick={() => finish('+998 90 123 45 67')}>Raqamni ulashish</button>
+          <button type="button" className="ghost-btn" disabled={busy} onClick={() => finish()}>Keyinroq</button>
         </Sheet>
       )}
 
+      {toast}
       <div className="mb">
-        <button type="button" className="mbb" onClick={next}>{step < 3 ? 'Davom etish' : 'Tayyor'}</button>
+        <button type="button" className="mbb" disabled={busy || (step === 2 && !keys(sports).length)} onClick={next}>
+          {step < 3 ? 'Davom etish' : 'Tayyor'}
+        </button>
       </div>
     </Screen>
   )

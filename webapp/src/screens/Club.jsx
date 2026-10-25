@@ -2,39 +2,50 @@ import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Screen from '../components/Screen.jsx'
 import { UnderlineTabs } from '../components/ui.jsx'
-import { clubById } from '../data.js'
-import { addHours, money, nextDays } from '../format.js'
+import { Async } from '../components/State.jsx'
+import { useApi } from '../api.js'
+import { addHours, money } from '../format.js'
 import { haptic, openLink, share } from '../telegram.js'
-
-const TIMES = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00']
 
 export default function Club() {
   const { id } = useParams()
-  const club = clubById(id)
+  const res = useApi(`/api/clubs/${id}`)
+  return (
+    <Screen back="/search">
+      <Async res={res}>{(club) => <ClubBody club={club} />}</Async>
+    </Screen>
+  )
+}
+
+function ClubBody({ club }) {
   const navigate = useNavigate()
   const location = useLocation()
-  const days = nextDays(6)
-
   const [tab, setTab] = useState('bron')
   const [day, setDay] = useState(0)
   const [type, setType] = useState(0)
-  const [slot, setSlot] = useState(location.state?.slot || '19:00')
+  const [slot, setSlot] = useState(location.state?.slot || club.slots[0] || club.times[2])
   const [dur, setDur] = useState(2)
 
-  const busy = club.busy[day] || []
-  const price = club.types[type].price
-  const total = price * dur
+  const t = club.types[type]
+  const busy = club.busy[t.id][day] || []
   const end = addHours(slot, dur)
+  // Every hour of the chosen duration must be free (and within the evening schedule).
+  const startIdx = club.times.indexOf(slot)
+  const span = club.times.slice(startIdx, startIdx + dur)
+  const blocked = span.length < dur || span.some((x) => busy.includes(x))
 
   const book = () => {
     haptic('medium')
     navigate('/booking', {
-      state: { clubId: club.id, dayLabel: days[day].label, typeLabel: club.types[type].label, price, slot, end, dur },
+      state: {
+        clubId: club.id, clubName: club.name, img: club.img, typeId: t.id, typeLabel: t.label, price: t.price,
+        date: club.days[day].date, dayLabel: club.days[day].label, slot, end, dur,
+      },
     })
   }
 
   return (
-    <Screen back="/search">
+    <>
       <div className="body">
         <div className="hero-img">
           <img src={club.img} alt={club.name} />
@@ -56,41 +67,33 @@ export default function Club() {
           </div>
         </div>
 
-        <UnderlineTabs
-          label="Klub bo‘limlari"
-          options={[['bron', 'Bron'], ['narx', 'Narx va qulaylik'], ['sharh', 'Sharhlar']]}
-          value={tab}
-          onChange={setTab}
-        />
+        <UnderlineTabs label="Klub bo‘limlari" options={[['bron', 'Bron'], ['narx', 'Narx va qulaylik'], ['sharh', 'Sharhlar']]} value={tab} onChange={setTab} />
 
         <div className="pad">
           {tab === 'bron' && (
             <>
               <div className="hscroll">
-                {days.map((d, i) => (
-                  <button key={d.label} type="button" className={day === i ? 'day on' : 'day'} onClick={() => setDay(i)}>
-                    <span>{d.w}</span><b>{d.n}</b>
-                  </button>
-                ))}
+                {club.days.map((d, i) => {
+                  const [w, n] = d.label.split(', ')
+                  return (
+                    <button key={d.date} type="button" className={day === i ? 'day on' : 'day'} onClick={() => setDay(i)}>
+                      <span>{w}</span><b>{parseInt(n, 10)}</b>
+                    </button>
+                  )
+                })}
               </div>
               {club.types.length > 1 && (
                 <div className="chips">
-                  {club.types.map((t, i) => (
-                    <button key={t.label} type="button" className={type === i ? 'opt on' : 'opt'} onClick={() => setType(i)}>{t.label}</button>
+                  {club.types.map((x, i) => (
+                    <button key={x.id} type="button" className={type === i ? 'opt on' : 'opt'} onClick={() => setType(i)}>{x.label}</button>
                   ))}
                 </div>
               )}
               <div className="between"><b className="fs15">Boshlanish vaqti</b><span className="mu fs12">chiziqli = band</span></div>
               <div className="grid4">
-                {TIMES.map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    className={slot === t ? 'sl on' : 'sl'}
-                    disabled={busy.includes(t)}
-                    onClick={() => { haptic('light'); setSlot(t) }}
-                  >
-                    {t}
+                {club.times.map((x) => (
+                  <button key={x} type="button" className={slot === x ? 'sl on' : 'sl'} disabled={busy.includes(x)} onClick={() => { haptic('light'); setSlot(x) }}>
+                    {x}
                   </button>
                 ))}
               </div>
@@ -102,7 +105,9 @@ export default function Club() {
                   ))}
                 </div>
               </div>
-              <span className="mu fs13">{days[day].w}, {slot}–{end} · 2 soat oldin bepul bekor qilinadi</span>
+              <span className="mu fs13">
+                {blocked ? 'Tanlangan vaqt band. Boshqa vaqt yoki davomiylikni tanlang.' : `${club.days[day].label.split(',')[0]}, ${slot}–${end} · 2 soat oldin bepul bekor qilinadi`}
+              </span>
             </>
           )}
 
@@ -119,7 +124,7 @@ export default function Club() {
 
           {tab === 'sharh' && (
             club.reviews.length ? club.reviews.map((r) => (
-              <div key={r.name} className="card col gap-6" style={{ padding: 14, borderRadius: 14 }}>
+              <div key={r.name + r.text} className="card col gap-6" style={{ padding: 14, borderRadius: 14 }}>
                 <div className="between"><b>{r.name}</b><span className="lime">{'★'.repeat(r.stars)}{'☆'.repeat(5 - r.stars)}</span></div>
                 <span className="fs14">{r.text}</span>
               </div>
@@ -129,8 +134,8 @@ export default function Club() {
       </div>
 
       <div className="mb">
-        <button type="button" className="mbb" onClick={book} disabled={busy.includes(slot)}>Bron qilish · {money(total)}</button>
+        <button type="button" className="mbb" onClick={book} disabled={blocked}>Bron qilish · {money(t.price * dur)}</button>
       </div>
-    </Screen>
+    </>
   )
 }

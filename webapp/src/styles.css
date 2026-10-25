@@ -160,6 +160,12 @@ a.card:hover { color: var(--ink); border-color: var(--line-chip); }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(24px); opacity: .6; } }
 
+/* Loading / error */
+.state { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; text-align: center; padding: 32px 20px; }
+.spinner { width: 32px; height: 32px; border-radius: 50%; border: 3px solid var(--line-chip); border-top-color: var(--lime); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.toast { position: absolute; left: 12px; right: 12px; bottom: 90px; z-index: 30; background: #2A1A12; border: 1px solid #7A4A20; color: #F3D9C4; border-radius: 12px; padding: 12px 14px; font-size: 14px; animation: up .2s ease-out; }
+
 /* Success state */
 .done { flex: 1; padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; justify-content: center; align-items: center; text-align: center; }
 .done-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; }
