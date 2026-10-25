@@ -7,6 +7,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand, MenuButtonWebApp, WebAppInfo
 from aiohttp import web
 
+from backend import Backend
 from config import load_config
 from handlers import router
 from notify_api import build_app
@@ -17,7 +18,7 @@ async def main() -> None:
     config = load_config()
 
     bot = Bot(config.bot_token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    dp = Dispatcher(webapp_url=config.webapp_url)
+    dp = Dispatcher(webapp_url=config.webapp_url, backend=Backend(config.backend_url, config.notify_secret))
     dp.include_router(router)
 
     # Menu button next to the message field opens the mini app.

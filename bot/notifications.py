@@ -91,7 +91,75 @@ def booking_reminder(d: dict, url: str) -> Built:
     return text, rows([app_button("QR kod", url, "/booking/done"), maps_button(str(d.get("club", "")))])
 
 
+def lead_approved(d: dict, url: str) -> Built:
+    text = (
+        f"✅ <b>{_e(d, 'kind')} arizangiz tasdiqlandi</b>\n"
+        f"«{_e(d, 'title')}»\n"
+        "Menejer tez orada siz bilan bog‘lanib, profilni sozlab beradi."
+    )
+    return text, rows([app_button("Ilovani ochish", url)])
+
+
+def lead_info_requested(d: dict, url: str) -> Built:
+    text = (
+        "⚠️ <b>Qo‘shimcha ma’lumot kerak</b>\n"
+        f"«{_e(d, 'title')}» arizasi bo‘yicha: «{_e(d, 'comment')}»\n\n"
+        f"<i>Javobni {_e(d, 'deadline', '72 soat')} ichida @kigo_sherik ga yuboring.</i>"
+    )
+    return text, None
+
+
+def lead_rejected(d: dict, url: str) -> Built:
+    return f"❌ «{_e(d, 'title')}» arizasi rad etildi.\nSabab: {_e(d, 'reason')}", None
+
+
+def tournament_stopped(d: dict, url: str) -> Built:
+    refund = f"\nTo‘langan {_e(d, 'refund')} kartangizga qaytariladi." if d.get("refund") else ""
+    text = f"⛔ <b>«{_e(d, 'title')}» turniri to‘xtatildi</b>\nSabab: {_e(d, 'reason')}{refund}"
+    return text, rows([app_button("Turnirlar", url, "/tournament")])
+
+
+def refund_approved(d: dict, url: str) -> Built:
+    text = (
+        "💸 <b>Pul qaytarildi</b>\n"
+        f"{_e(d, 'club')} · {_e(d, 'day')}, {_e(d, 'start')}\n"
+        f"{_e(d, 'amount')} 1–3 ish kunida kartangizga tushadi."
+    )
+    return text, rows([app_button("Bronlarim", url, "/profile")])
+
+
+def refund_denied(d: dict, url: str) -> Built:
+    text = (
+        "Pul qaytarish rad etildi\n"
+        f"{_e(d, 'club')} · {_e(d, 'day')}, {_e(d, 'start')}\n"
+        "Bron o‘yinga 2 soatdan kam qolganda bekor qilingan. Savol bo‘lsa: @kigo_sherik"
+    )
+    return text, None
+
+
+def complaint_reply(d: dict, url: str) -> Built:
+    return f"📩 <b>Shikoyatingiz bo‘yicha javob</b>\n«{_e(d, 'title')}»\n\n{_e(d, 'reply')}", None
+
+
+def staff_invited(d: dict, url: str) -> Built:
+    return (f"👋 {_e(d, 'by')} sizni <b>KiGo Admin</b> jamoasiga qo‘shdi ({_e(d, 'role')}).\n"
+            "Admin panelda «Telegram orqali kirish» ni bosing."), None
+
+
+def admin_new_request(d: dict, url: str) -> Built:
+    return f"🆕 <b>Yangi ariza</b> · {_e(d, 'kind')}\n«{_e(d, 'title')}»\nAdmin panel › Arizalar", None
+
+
 EVENTS = {
+    "lead_approved": lead_approved,
+    "lead_info_requested": lead_info_requested,
+    "lead_rejected": lead_rejected,
+    "tournament_stopped": tournament_stopped,
+    "refund_approved": refund_approved,
+    "refund_denied": refund_denied,
+    "complaint_reply": complaint_reply,
+    "staff_invited": staff_invited,
+    "admin_new_request": admin_new_request,
     "application_received": application_received,
     "info_requested": info_requested,
     "application_approved": application_approved,

@@ -11,6 +11,9 @@ import { sportColor } from '../data.js'
 import { money } from '../format.js'
 import { haptic, openTelegramLink } from '../telegram.js'
 
+// Refund state set by the club/admins in the CRM after a cancellation
+const REFUND = { requested: 'Qaytarish ko‘rib chiqilmoqda', refunded: 'Pul qaytarildi', denied: 'Qaytarish rad etildi' }
+
 export default function Profile() {
   const me = useMe()
   const user = me.data
@@ -114,7 +117,7 @@ function MyBookings() {
               <img src={b.img} alt="" style={{ width: 52, height: 52, borderRadius: 12, objectFit: 'cover' }} />
               <span className="col flex1"><b className="fs15">{b.clubName}, {b.typeLabel}</b><span className="mu fs12">{b.dayLabel}, {b.slot}–{b.end} · № {b.number}</span></span>
               {cancelled
-                ? <span className="pill" style={{ background: '#2A1A12', color: 'var(--orange)' }}>Bekor qilindi</span>
+                ? <span className="pill" style={{ background: '#2A1A12', color: 'var(--orange)' }}>{REFUND[b.refundStatus] || 'Bekor qilindi'}</span>
                 : b.isToday ? <span className="pill pill-lime">Bugun</span>
                   : <span className="pill" style={{ background: 'var(--card-2)', color: 'var(--ink)' }}>Tasdiqlangan</span>}
             </div>
@@ -122,7 +125,7 @@ function MyBookings() {
               <div className="warn">
                 <b className="fs14">Bekor qilasizmi?</b>
                 <span style={{ color: '#F3D9C4' }}>
-                  {b.paid > 0 ? (b.freeCancel ? `${money(b.paid)} depozit kartangizga qaytadi.` : `O‘yinga 2 soatdan kam qoldi: ${money(b.paid)} depozit qaytmaydi.`) : 'Klub ogohlantiriladi.'}
+                  {b.paid > 0 ? (b.freeCancel ? `${money(b.paid)} depozit kartangizga qaytadi.` : `O‘yinga 2 soatdan kam qoldi: ${money(b.paid)} depozitni qaytarish so‘rovi klub va adminlarga boradi.`) : 'Klub ogohlantiriladi.'}
                 </span>
                 <span className="row-8">
                   <button type="button" className="sb" disabled={busy} style={{ background: 'var(--orange)', color: '#2A1A12' }} onClick={() => cancel(b.id)}>Ha, bekor qilish</button>

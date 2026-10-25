@@ -19,9 +19,11 @@ export default function Home() {
   const games = (useApi('/api/games').data || []).filter((g) => !g.joined && g.left > 0)
   const bookings = useApi('/api/bookings').data || []
   const tournaments = useApi('/api/tournaments').data || []
+  // Blocks switched on/off in the CRM («Landing va ilova» › mini ilova)
+  const blocks = useApi('/api/content').data?.app || { hero: true, quick: true, near: true, tur: true, games: true }
 
   const today = bookings.find((b) => b.isToday && b.status === 'confirmed' && !b.past)
-  const tournament = tournaments.find((t) => t.status === 'Kutilayotgan') || tournaments[0]
+  const tournament = tournaments.find((t) => t.banner) || tournaments.find((t) => t.status === 'Kutilayotgan')
 
   return (
     <Screen>
@@ -38,11 +40,11 @@ export default function Home() {
 
         <Link to="/search" className="search-link"><Search size={20} strokeWidth={2} />Klub, sport yoki o‘yinchi</Link>
 
-        <div className="grid4">
+        {blocks.quick && <div className="grid4">
           {QUICK.map(({ to, label, Icon }) => (
             <Link key={label} to={to} className="qa"><span className="qa-i"><Icon /></span>{label}</Link>
           ))}
-        </div>
+        </div>}
 
         {today && (
           <Link to={`/booking/${today.id}`} className="today">
@@ -55,10 +57,10 @@ export default function Home() {
           </Link>
         )}
 
-        <section className="col gap-10">
+        {blocks.near && <section className="col gap-10">
           <div className="sec-h"><b>Hozir bo‘sh, yaqinda</b><Link to="/search">Hammasi</Link></div>
           <div className="hscroll" style={{ gap: 10 }}>
-            {clubs.filter((c) => c.nextFree).slice(0, 4).map((c) => (
+            {clubs.filter((c) => c.nextFree && c.nearby).slice(0, 4).map((c) => (
               <Link key={c.id} to={`/club/${c.id}`} className="card venue-mini">
                 <img src={c.img} alt={c.name} />
                 <span className="col gap-2" style={{ padding: '10px 12px' }}>
@@ -69,9 +71,9 @@ export default function Home() {
               </Link>
             ))}
           </div>
-        </section>
+        </section>}
 
-        {games.length > 0 && (
+        {blocks.games && games.length > 0 && (
           <section className="col gap-10">
             <div className="sec-h"><b>Sizga mos ochiq o‘yinlar</b><Link to="/games">Hammasi</Link></div>
             {games.slice(0, 2).map((g) => (
@@ -87,7 +89,7 @@ export default function Home() {
           </section>
         )}
 
-        {tournament && (
+        {(blocks.hero || blocks.tur) && tournament && (
           <Link to={`/tournament/${tournament.id}`} className="card row" style={{ overflow: 'hidden', alignItems: 'stretch' }}>
             <img src="images/chess.jpg" alt="" style={{ width: 110, objectFit: 'cover' }} />
             <span className="col gap-2" style={{ padding: '12px 14px' }}>

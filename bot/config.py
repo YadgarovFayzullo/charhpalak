@@ -10,6 +10,7 @@ load_dotenv()
 class Config:
     bot_token: str
     webapp_url: str
+    backend_url: str
     notify_secret: str
     notify_host: str
     notify_port: int
@@ -25,6 +26,7 @@ def load_config() -> Config:
     return Config(
         bot_token=token,
         webapp_url=webapp_url.rstrip("/") + "/",
+        backend_url=os.getenv("BACKEND_URL", "http://127.0.0.1:8010").rstrip("/"),
         notify_secret=os.getenv("NOTIFY_SECRET", ""),
         notify_host=os.getenv("NOTIFY_HOST", "127.0.0.1"),
         notify_port=int(os.getenv("NOTIFY_PORT", "8081")),
