@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { tg, inTelegram } from './telegram.js'
 
-const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8010').replace(/\/$/, '')
+// Empty = same origin (the dev server proxies /api to the backend).
+const BASE = (import.meta.env.VITE_API_URL || window.location.origin).replace(/\/$/, '')
 
 export class ApiError extends Error {
   constructor(status, message) {
