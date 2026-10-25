@@ -1,0 +1,23 @@
+# Local PostgreSQL for KiGo. Credentials come from backend/.env (KIGO_DB_PASSWORD).
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: kigo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kigo
+      POSTGRES_PASSWORD: ${KIGO_DB_PASSWORD:?set KIGO_DB_PASSWORD in backend/.env}
+      POSTGRES_DB: kigo
+    ports:
+      - "127.0.0.1:5434:5432"
+    volumes:
+      - kigo-pgdata:/var/lib/postgresql/data
+      - ./scripts/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kigo -d kigo"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  kigo-pgdata:

@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from .. import serializers as s
 from ..auth import current_user
 from ..db import get_db
+from ..admin import store
 from ..models import Booking, ClubType, User, now
 from ..notifier import notify
 from ..utils import TIMES, hour, starts_at, today
@@ -52,9 +53,13 @@ def get_booking(booking_id: int, user: User = Depends(current_user), db: Session
 
 @router.post("", status_code=201)
 def create_booking(body: BookingIn, tasks: BackgroundTasks, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    if not user.can_book:
+        raise HTTPException(403, "Sizga bron qilish cheklangan. @kigo_sherik ga yozing.")
     ctype = db.get(ClubType, body.type_id)
-    if not ctype or ctype.club_id != body.club_id:
+    if not ctype or ctype.club_id != body.club_id or ctype.club.blocked:
         raise HTTPException(404, "Klub yoki stol turi topilmadi")
+    if not ctype.club.bookable:
+        raise HTTPException(403, "Bu klubda bron vaqtincha yopiq")
     if body.start not in TIMES:
         raise HTTPException(400, "Bu vaqtda bron qilib bo‘lmaydi")
     if not today() <= body.date <= today() + timedelta(days=MAX_DAYS_AHEAD):
@@ -108,8 +113,13 @@ def cancel(booking_id: int, user: User = Depends(current_user), db: Session = De
     info = s.booking(b)
     if info["past"]:
         raise HTTPException(400, "O‘tgan bronni bekor qilib bo‘lmaydi")
-    # Deposit goes back only when cancelled at least 2 hours before the start.
-    b.refunded = b.status == "confirmed" and b.deposit > 0 and info["freeCancel"]
+    # Early cancel: the deposit goes back automatically (unless the rule is off).
+    # Late cancel: the refund becomes a request for the club/admins in the CRM.
+    if b.status == "confirmed" and b.deposit > 0:
+        if info["freeCancel"] and store.rule(db, store.R_AUTO_REFUND):
+            b.refunded, b.refund_status = True, "refunded"
+        else:
+            b.refund_status = "requested"
     b.status = "cancelled"
     db.commit()
     return s.booking(b)

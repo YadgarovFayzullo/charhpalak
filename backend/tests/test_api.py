@@ -26,6 +26,12 @@ def test_telegram_auth_creates_user(client):
     assert (me["id"], me["name"], me["username"], me["onboarded"]) == (777, "Ali Valiyev", "@ali", False)
 
 
+def test_invisible_characters_are_stripped_from_names(client):
+    h = {"Authorization": "tma " + init_data({"id": 783, "first_name": "ㅤFayzullo Yadgarov"})}
+    me = client.get("/api/me", headers=h).json()
+    assert (me["name"], me["initials"]) == ("Fayzullo Yadgarov", "FY")
+
+
 def test_forged_init_data_is_rejected(client):
     h = {"Authorization": "tma " + init_data({"id": 777, "first_name": "Ali"}, token="999:OTHER")}
     assert client.get("/api/me", headers=h).status_code == 401
@@ -126,47 +132,61 @@ def test_tournament_registration(client):
     assert client.post("/api/tournaments/pirat-cup/register").json()["registered"] is False
 
 
-# ---------- applications ----------
+# ---------- applications (organizer side + CRM moderation) ----------
 
 APP = {"name": "Yunusobod Tennis Cup", "sport": "Tennis", "format": "Yakka", "level": "O‘rta", "venue": "«Olimp» korti",
        "club_id": "olimp", "start_date": "2026-12-05", "end_date": "2026-12-06", "max_players": 16, "min_players": 8, "fee": 100000}
 
 
-def test_application_full_cycle(client, sent):
+def test_application_full_cycle(client, sent, admin):
     a = client.post("/api/applications", json=APP).json()
-    assert a["status"] == "rev" and sent[-1][1] == "application_received"
+    assert a["status"] == "rev" and any(e == "application_received" for _, e, _ in sent)
+    key = f"a{a['id']}"
+    crm = {i["key"]: i for i in client.get("/api/admin/requests", headers=admin).json()["items"]}
+    assert crm[key]["st"] == "new"
 
-    info = client.post(f"/api/admin/applications/{a['id']}/request-info", json={"comment": "Kortlar bandmi?", "fields": ["Joy va sana"]}).json()
-    assert info["status"] == "info" and sent[-1] == (1000, "info_requested", {"comment": "Kortlar bandmi?"})
+    assert client.post(f"/api/admin/requests/{key}/open", headers=admin).json()["st"] == "rev"
+    info = client.post(f"/api/admin/requests/{key}/request-info", headers=admin, json={"comment": "Kortlar bandmi?", "fields": ["Joy va sana"]}).json()
+    assert info["st"] == "info" and sent[-1] == (1000, "info_requested", {"comment": "Kortlar bandmi?", "title": APP["name"], "deadline": "72 soat"})
+    assert client.get("/api/applications").json()[0]["status"] == "info"
 
-    ans = client.post(f"/api/applications/{a['id']}/answer", json={"answer": "Ha, kelishilgan"}).json()
-    assert ans["status"] == "rev"
+    assert client.post(f"/api/applications/{a['id']}/answer", json={"answer": "Ha, kelishilgan"}).json()["status"] == "rev"
 
-    ok = client.post(f"/api/admin/applications/{a['id']}/approve").json()
-    assert ok["status"] == "ok" and ok["tournamentId"]
-    assert [h["title"] for h in ok["history"]] == ["Ariza yuborildi", "Admin ko‘ra boshladi", "Ma’lumot so‘raldi", "Siz javob berdingiz", "Tasdiqlandi", "E’lon qilindi"]
-    assert sent[-1][1] == "application_approved"
+    # Approval needs the whole checklist.
+    assert client.post(f"/api/admin/requests/{key}/approve", headers=admin, json={}).status_code == 400
+    client.put(f"/api/admin/requests/{key}/checks", headers=admin, json={"checks": list(range(6))})
+    ok = client.post(f"/api/admin/requests/{key}/approve", headers=admin, json={"places": {"feat": True, "banner": True}, "slot": 0}).json()
+    assert ok["st"] == "pub" and sent[-1][1] == "application_approved"
+    assert [h[0] for h in ok["history"]][-2:] == ["Tasdiqlandi", "E’lon qilindi"]
 
-    t = client.get(f"/api/tournaments/{ok['tournamentId']}").json()
-    assert (t["title"], t["max"], t["clubId"]) == ("Yunusobod Tennis Cup", 16, "olimp")
+    mine = client.get("/api/applications").json()[0]
+    t = client.get(f"/api/tournaments/{mine['tournamentId']}").json()
+    assert (t["title"], t["max"], t["banner"]) == ("Yunusobod Tennis Cup", 16, True)
+    featured = [r for r in client.get("/api/admin/tournaments", headers=admin).json() if r["featured"]]
+    assert sorted(featured, key=lambda r: r["featured"])[0]["id"] == t["id"]
 
-    # A participant registering notifies the organizer.
     other = {"Authorization": "tma " + init_data({"id": 781, "first_name": "Zafar", "last_name": "Q"})}
     client.post(f"/api/tournaments/{t['id']}/register", headers=other)
     assert sent[-1][:2] == (1000, "new_participant")
 
 
-def test_reject_and_resubmit(client, sent):
+def test_reject_and_resubmit(client, sent, admin):
     a = client.post("/api/applications", json=APP).json()
-    no = client.post(f"/api/admin/applications/{a['id']}/reject", json={"reason": "Sana band"}).json()
-    assert no["status"] == "no" and sent[-1][1] == "application_rejected"
+    no = client.post(f"/api/admin/requests/a{a['id']}/reject", headers=admin, json={"reason": "Sana band"}).json()
+    assert no["st"] == "no" and sent[-1][1] == "application_rejected"
     again = client.put(f"/api/applications/{a['id']}", json={**APP, "start_date": "2026-12-12", "end_date": "2026-12-13"}).json()
     assert again["status"] == "rev" and again["history"][-1]["title"] == "Qayta yuborildi"
+    crm = {i["key"]: i for i in client.get("/api/admin/requests", headers=admin).json()["items"]}
+    assert crm[f"a{a['id']}"]["st"] == "new"
 
 
-def test_admin_endpoints_need_admin(client):
-    h = {"Authorization": "tma " + init_data({"id": 782, "first_name": "NotAdmin"})}
-    assert client.get("/api/admin/applications", headers=h).status_code == 403
+def test_admin_needs_session_and_staff(client):
+    assert client.get("/api/admin/requests").status_code == 401
+    token = client.post("/api/admin/login").json()["token"]
+    from tests.conftest import BOT
+    r = client.post("/api/admin/login/confirm", headers=BOT, json={"token": token, "user_id": 2}).json()
+    assert r["ok"] is False and client.get(f"/api/admin/login/{token}").json()["status"] == "denied"
+    assert client.post("/api/admin/login/confirm", json={"token": token, "user_id": 1000}).status_code == 403  # no bot secret
 
 
 # ---------- ratings ----------

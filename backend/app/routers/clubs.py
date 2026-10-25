@@ -20,7 +20,7 @@ def list_clubs(
     free_only: bool = False,
     db: Session = Depends(get_db),
 ):
-    clubs = db.scalars(select(Club).order_by(Club.dist)).all()
+    clubs = db.scalars(select(Club).where(Club.blocked.is_(False)).order_by(Club.dist)).all()
     out = []
     for c in clubs:
         if sport and sport != "Hammasi" and c.sport != sport:
@@ -43,6 +43,6 @@ def list_clubs(
 @router.get("/{club_id}")
 def get_club(club_id: str, db: Session = Depends(get_db)):
     club = db.get(Club, club_id)
-    if not club:
+    if not club or club.blocked:
         raise HTTPException(404, "Klub topilmadi")
     return s.club_detail(db, club)

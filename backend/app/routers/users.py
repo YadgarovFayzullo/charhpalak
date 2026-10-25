@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -6,7 +6,11 @@ from sqlalchemy.orm import Session
 from .. import serializers as s
 from ..auth import current_user
 from ..db import get_db
-from ..models import BusinessLead, Game, GamePlayer, Rating, User
+from ..admin.content import app_blocks
+from ..admin.requests import notify_staff_new_request
+from ..models import BusinessLead, Game, Rating, User, now
+from ..notifier import notify
+from ..utils import stamp
 
 router = APIRouter(prefix="/api", tags=["users"])
 
@@ -65,15 +69,30 @@ def rate(body: RatingIn, user: User = Depends(current_user), db: Session = Depen
 
 
 class LeadIn(BaseModel):
-    kind: str = Field(default="club", pattern="^(club|coach)$")
+    kind: str = Field(default="club", pattern="^(club|coach|sponsor)$")
     club_name: str = Field(min_length=1, max_length=120)
     sport: str = Field(max_length=32)
     phone: str = Field(min_length=5, max_length=32)
 
 
 @router.post("/business-leads", status_code=201)
-def business_lead(body: LeadIn, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    lead = BusinessLead(user_id=user.id, **body.model_dump())
+def business_lead(body: LeadIn, tasks: BackgroundTasks, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    """«Klubni ulash» / «Murabbiy bo‘lish» from the mini app; lands in the CRM «Arizalar»."""
+    label = {"club": "Klub", "coach": "Murabbiy", "sponsor": "Homiy"}[body.kind]
+    lead = BusinessLead(
+        user_id=user.id, kind=body.kind, club_name=body.club_name, sport=body.sport, phone=body.phone,
+        contact=user.name, telegram=f"@{user.username}" if user.username else "", sub=f"{body.sport} · mini ilovadan",
+        details=[["Sport", body.sport], ["Telefon", body.phone]], status="new",
+        history=[{"title": "Ariza yuborildi", "at": stamp(now()), "who": user.name}],
+    )
     db.add(lead)
     db.commit()
-    return {"ok": True, "id": lead.id}
+    for args in notify_staff_new_request(db, body.club_name, label):
+        tasks.add_task(notify, *args)
+    return {"ok": True, "id": lead.id, "number": lead.number}
+
+
+@router.get("/content")
+def public_content(db: Session = Depends(get_db)):
+    """Which mini app home blocks are switched on in the CRM («Landing va ilova»)."""
+    return {"app": app_blocks(db)}

@@ -20,6 +20,13 @@ from .models import User
 
 MAX_AGE = 24 * 3600
 
+# Invisible characters people put in Telegram names (Hangul fillers, zero-width, etc.).
+_INVISIBLE = "ㅤᅟᅠﾠ​‌‍⁠﻿ "
+
+
+def clean_name(s: str) -> str:
+    return " ".join(s.translate({ord(c): " " for c in _INVISIBLE}).split())
+
 
 def validate_init_data(init_data: str, bot_token: str, max_age: int = MAX_AGE) -> dict | None:
     fields = dict(parse_qsl(init_data, keep_blank_values=True))
@@ -39,6 +46,13 @@ def validate_init_data(init_data: str, bot_token: str, max_age: int = MAX_AGE) -
 
 
 def current_user(authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
+    user = _resolve(authorization, db)
+    if user.blocked:
+        raise HTTPException(403, "Hisobingiz bloklangan. Savol bo‘lsa: @kigo_sherik")
+    return user
+
+
+def _resolve(authorization: str | None, db: Session) -> User:
     if authorization and authorization.startswith("tma "):
         data = validate_init_data(authorization[4:], settings.bot_token)
         if not data or "user" not in data:
@@ -49,8 +63,8 @@ def current_user(authorization: str | None = Header(default=None), db: Session =
             user = User(id=tg["id"])
             db.add(user)
         # Keep the profile in sync with Telegram on every request.
-        user.first_name = tg.get("first_name", "")
-        user.last_name = tg.get("last_name", "")
+        user.first_name = clean_name(tg.get("first_name", ""))
+        user.last_name = clean_name(tg.get("last_name", ""))
         user.username = tg.get("username", "")
         db.commit()
         return user
@@ -65,8 +79,3 @@ def current_user(authorization: str | None = Header(default=None), db: Session =
 
     raise HTTPException(401, "Telegram orqali oching")
 
-
-def admin_user(user: User = Depends(current_user)) -> User:
-    if user.id not in settings.admin_ids:
-        raise HTTPException(403, "Faqat adminlar uchun")
-    return user

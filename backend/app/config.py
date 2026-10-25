@@ -17,6 +17,7 @@ def _ids(raw: str) -> frozenset[int]:
 class Settings:
     bot_token: str = field(default_factory=lambda: os.getenv("BOT_TOKEN", ""))
     database_url: str = field(default_factory=lambda: os.getenv("KIGO_DATABASE_URL", "sqlite:///./kigo.db"))
+    bot_username: str = field(default_factory=lambda: os.getenv("BOT_USERNAME", "charhpalak_bot"))
     bot_notify_url: str = field(default_factory=lambda: os.getenv("BOT_NOTIFY_URL", ""))
     notify_secret: str = field(default_factory=lambda: os.getenv("NOTIFY_SECRET", ""))
     admin_ids: frozenset[int] = field(default_factory=lambda: _ids(os.getenv("ADMIN_IDS", "")))

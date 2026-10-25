@@ -1,21 +1,22 @@
-# KiGo — API (FastAPI + SQLite)
+# KiGo — API (FastAPI + PostgreSQL)
 
-Бэкенд для мини-приложения [`../webapp`](../webapp). Уведомления отправляет через бота [`../bot`](../bot).
+Единый бэкенд для мини-приложения [`../webapp`](../webapp), CRM (`~/Desktop/kigo-crm`) и бота [`../bot`](../bot): у всех одна база.
 
 ## Запуск
 
 ```bash
 cd backend
+cp .env.example .env               # вписать BOT_TOKEN, KIGO_DB_PASSWORD (тот же пароль в KIGO_DATABASE_URL), NOTIFY_SECRET
+docker compose up -d               # PostgreSQL 16 на 127.0.0.1:5434 (+ база kigo_test для тестов)
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-cp .env.example .env
 .venv/bin/uvicorn app.main:app --port 8010 --reload
 ```
 
-Документация API: http://localhost:8010/docs. Тесты: `.venv/bin/python -m pytest`.
+Документация API: http://localhost:8010/docs. Тесты (на базе `kigo_test`): `.venv/bin/python -m pytest`.
 
-При первом запуске база (`kigo.db`) создаётся сама и заполняется демо-данными из дизайна: клубы, игры, турнир «Pirat Cup».
-С `DEV_MODE=1` ещё добавляется демо-пользователь Jasur Karimov с бронями и заявкой. Чтобы начать с чистой базы, удалите `kigo.db`.
+При старте сервер сам применяет миграции (`alembic upgrade head`). С `SEED_DEMO=1` пустая база заполняется демо-данными из дизайна.
+Меняете модели — создайте миграцию: `.venv/bin/alembic revision --autogenerate -m "что изменилось"`.
 
 ## Авторизация
 
@@ -56,11 +57,27 @@ cp .env.example .env
 
 Пустой `BOT_NOTIFY_URL` — уведомления только пишутся в лог.
 
+## CRM (`/api/admin/*`)
+
+Вход — через бота: CRM получает одноразовую ссылку `t.me/<бот>?start=login_…`, бот просит подтвердить, после этого токен становится сессией (`Authorization: Bearer …`, 7 дней).
+Войти могут только люди из таблицы `staff`. `ADMIN_IDS` — всегда Super admin, остальных Super admin добавляет в «Sozlamalar» по @username
+(человек должен один раз нажать /start в боте). Права ролей — матрица из «Rollar va ruxsatlar», проверяется на каждом запросе.
+
+| Раздел CRM | API | Что меняется в мини-приложении |
+|---|---|---|
+| Boshqaruv | `GET /dashboard` | — |
+| Arizalar | `GET /requests`, `POST /requests/{key}/open · approve · request-info · reject`, `PUT …/checks · note` | Заявки на турнир из приложения и «Klubni ulash / Murabbiy bo‘lish». Одобрение создаёт турнир или тренера, бот сообщает автору |
+| Turnirlar | `GET /tournaments`, `POST /{id}/featured · banner · stop`, `PUT /featured` | Баннер на главной, остановленный турнир закрыт для записи |
+| Landing va ilova | `GET/PUT /content` | Блоки главной экрана (`GET /api/content`) |
+| Klublar / Foydalanuvchilar | `GET /directory`, `PATCH /directory/{tab}/{id}` | Блокировка входа, запрет броней/заявок, закрытие клуба |
+| To‘lovlar | `GET /payments`, `POST /payments/{id}/refund` | Поздняя отмена → запрос возврата → решение → бот |
+| Shikoyatlar | `GET /complaints`, `PATCH /complaints/{id}` | Скрытие/маскировка отзывов, ответ автору через бота |
+| Sozlamalar | `GET/PUT /team`, `POST /team/staff` | Правила: уведомления админам о новых заявках, автовозврат |
+
 ## Что ещё не сделано
 
-- **Оплата.** `/pay` — заглушка. Нужно подключить Click/Payme (или счёт Telegram через `WebApp.openInvoice`) и подтверждать бронь из callback платёжки. То же для взноса за турнир.
-- **Загрузка файлов**: обложка турнира, вложения к ответу модератору.
-- **Админ-панель.** Модерация пока только через API. Экраны админки есть в дизайне.
-- **Расстояние до клуба** хранится строкой. Для реального расчёта нужны координаты клуба и геолокация пользователя.
-- **Публикация игры в Telegram-группу** (`to_group`) не реализована.
-- **SQLite** подходит для старта. Для продакшена — Postgres: поменять `KIGO_DATABASE_URL`, добавить драйвер и миграции (Alembic).
+- **Оплата.** `/bookings/{id}/pay` — заглушка. Нужно подключить Click/Payme (или счёт Telegram через `WebApp.openInvoice`) и подтверждать бронь из callback платёжки. То же для взноса за турнир и обратных выплат.
+- **Жалобы и отзывы из приложения**: в CRM их модерируют, но в мини-приложении пока нет формы «Shikoyat qilish» и «Sharh yozish» (в базе — демо из дизайна).
+- **Загрузка файлов**: обложка турнира, вложения.
+- **Расстояние до клуба** хранится строкой; нужны координаты и геолокация.
+- **Публикация игры в Telegram-группу** (`to_group`) и пост в канал при одобрении турнира.

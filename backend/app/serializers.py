@@ -53,6 +53,8 @@ def club_card(db: Session, club: Club) -> dict:
         "slots": slots[:4],
         "nextFree": slots[0] if slots else None,
         "map": {"left": club.map_left, "top": club.map_top},
+        "nearby": club.nearby,
+        "bookable": club.bookable,
     }
 
 
@@ -64,7 +66,8 @@ def club_detail(db: Session, club: Club, days: int = 6) -> dict:
         "types": [{"id": t.id, "label": t.label, "price": t.price} for t in club.types],
         "prices": club.prices,
         "amenities": club.amenities,
-        "reviews": [{"name": r.author, "stars": r.stars, "text": r.text} for r in club.reviews],
+        "reviews": [{"name": r.author, "stars": r.stars, "text": r.text if r.status == "shown" else "«…» (moderator so‘zlarni yashirdi)"}
+                    for r in club.reviews if r.status in ("shown", "masked")],
         "days": [{"date": (start + timedelta(days=i)).isoformat(), "label": day_label(start + timedelta(days=i))} for i in range(days)],
         # busy[typeId][dayIndex] = start times that cannot be booked
         "busy": {
@@ -101,6 +104,7 @@ def booking(b: Booking) -> dict:
         "payLabel": PAY_LABELS[b.pay_method],
         "status": b.status,
         "refunded": b.refunded,
+        "refundStatus": b.refund_status,
         "invite": b.invite,
         "cancelUntil": hh(hour(b.start) - 2),
         "freeCancel": now() < begin - timedelta(hours=2),
@@ -202,7 +206,7 @@ def game(g: Game, me_id: int) -> dict:
 
 # ---------- tournaments ----------
 
-STATUS_LABEL = {"upcoming": "Kutilayotgan", "live": "Davom etayotgan", "finished": "Yakunlangan"}
+STATUS_LABEL = {"upcoming": "Kutilayotgan", "live": "Davom etayotgan", "finished": "Yakunlangan", "stop": "To‘xtatilgan"}
 
 
 def tournament(t: Tournament, me_id: int) -> dict:
@@ -231,13 +235,15 @@ def tournament(t: Tournament, me_id: int) -> dict:
         "rounds": t.rounds,
         "participants": people,
         "registered": entry is not None,
+        "banner": t.banner,
+        "stopReason": t.stop_reason,
         "group": entry.group if entry else "",
     }
 
 
 # ---------- applications ----------
 
-APP_STATUS = {"review": "rev", "info": "info", "approved": "ok", "rejected": "no"}
+APP_STATUS = {"new": "rev", "review": "rev", "info": "info", "approved": "ok", "rejected": "no"}
 
 
 def application(a: Application) -> dict:
