@@ -454,3 +454,4 @@ button.more { background: none; border: 0; padding: 0; cursor: pointer; color: i
 .tp-sponsor.taken { gap: 4px; align-content: center; justify-items: center; border-style: solid; color: var(--ink); padding: 14px 8px; }
 .tp-sponsor.taken small { color: var(--ink-mu); }
 .tp-sponsor.title { grid-column: span 2; background: var(--lime-soft); border-color: #9BD32A; }
+.logo-img { height: 36px; width: auto; max-width: none; }

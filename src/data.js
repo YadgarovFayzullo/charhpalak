@@ -60,6 +60,9 @@ export const BANNER_INTERVAL = 5500 // ms per slide
 
 // Logos in the partners marquee. Placeholders: replace `name` with a real logo (e.g. add `src: '/partners/<file>.svg'`).
 export const PARTNER_LOGOS = [
+  { name: 'Startup Garage', img: '/partners/startup-garage.svg' },
+  { name: 'Imkon Acceleration', img: '/partners/imkon-acceleration.svg' },
+  { name: 'Imkon Ventures', img: '/partners/imkon-ventures.svg', h: 22 }, // very wide logo: lower so it matches the others
   { name: 'Padel Store', mark: 'circle' },
   { name: 'Sport Market', mark: 'bars' },
   { name: 'Hydro', mark: 'drop' },

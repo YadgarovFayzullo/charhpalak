@@ -20,11 +20,10 @@ export const Mark = ({ mark, size = 28 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{MARKS[mark]}</svg>
 )
 
-function Logo({ name, mark }) {
+function Logo({ name, mark, img, h }) {
   return (
     <li className="logo-item">
-      <Mark mark={mark} />
-      <span>{name}</span>
+      {img ? <img className="logo-img" src={img} alt={name} style={h ? { height: h } : undefined} /> : <><Mark mark={mark} /><span>{name}</span></>}
     </li>
   )
 }

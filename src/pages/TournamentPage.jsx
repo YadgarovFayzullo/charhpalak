@@ -10,6 +10,7 @@ import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
 const TABS = ['overview', 'players', 'bracket', 'locations', 'results', 'sponsors']
+const MARKED = PARTNER_LOGOS.filter((l) => l.mark) // sponsors drawn as a mark + name
 const SPLIT = [50, 30, 20]
 // What the bracket score counts in each sport; races have no head-to-head score.
 const SCORE_UNIT = { futbol: 'goals', boshqa: 'points', tennis: 'sets', shaxmat: 'games', bilyard: 'games' } // share of the prize fund by place, %
@@ -238,7 +239,7 @@ export default function TournamentPage() {
                 <div className="tp-sponsors">
                   {Array.from({ length: 5 }, (_, i) => {
                     // Sample: the first three slots are taken (title sponsor + two partners), the rest are free.
-                    const l = i < 3 ? PARTNER_LOGOS[(x.id.length + i) % PARTNER_LOGOS.length] : null
+                    const l = i < 3 ? MARKED[(x.id.length + i) % MARKED.length] : null
                     return l
                       ? <div key={l.name} className={i === 0 ? 'tp-sponsor taken title' : 'tp-sponsor taken'}><Mark mark={l.mark} size={i === 0 ? 40 : 30} /><b>{l.name}</b><small>{t(i === 0 ? 'tpage.sponsors.title' : 'tpage.sponsors.partner')}</small></div>
                       : <div key={i} className="tp-sponsor">{t('tpage.sponsors.logo')}</div>
