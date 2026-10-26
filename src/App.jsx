@@ -1,28 +1,31 @@
-import { useState } from 'react'
-import Header from './components/Header.jsx'
-import Hero from './components/Hero.jsx'
-import Tournaments from './components/Tournaments.jsx'
-import Finished from './components/Finished.jsx'
-import Partners from './components/Partners.jsx'
-import Cta from './components/Cta.jsx'
-import Footer from './components/Footer.jsx'
-import { NO_FILTERS } from './data.js'
+import { useEffect } from 'react'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import TournamentsPage from './pages/TournamentsPage.jsx'
+import TournamentPage from './pages/TournamentPage.jsx'
+
+// New page → top; "/#section" → that section. "#t-…" is handled by the tournament rows themselves.
+function ScrollManager() {
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    if (hash.startsWith('#t-')) return
+    if (hash) requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView())
+    else window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+  return null
+}
 
 export default function App() {
-  // Shared by the hero search and the sport chips above the tournament list.
-  const [filters, setFilters] = useState(NO_FILTERS)
-
   return (
-    <div className="page">
-      <Header />
-      <main>
-        <Hero filters={filters} onSearch={setFilters} />
-        <Tournaments filters={filters} setFilters={setFilters} />
-        <Finished />
-        <Partners />
-        <Cta />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <ScrollManager />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tournaments" element={<TournamentsPage />} />
+        <Route path="/tournaments/:sport" element={<TournamentsPage />} />
+        <Route path="/tournament/:slug" element={<TournamentPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   )
 }

@@ -27,13 +27,7 @@
     "city_placeholder": "도시 또는 온라인",
     "date_label": "날짜",
     "date_placeholder": "날짜",
-    "submit": "검색",
-    "perks": {
-      "more": "더 많은 대회",
-      "community": "활발한 스포츠 커뮤니티",
-      "results": "투명한 결과",
-      "platform": "모든 것을 한곳에서"
-    }
+    "submit": "검색"
   },
   "sports": {
     "all": "전체",
@@ -73,13 +67,39 @@
     "clear": "필터 초기화",
     "names": {
       "tennis-open": "테니스 오픈",
+      "tennis-juniors": "주니어 테니스 컵",
+      "tennis-masters": "테니스 마스터스",
+      "tennis-yoz": "가을 테니스 리그",
+      "tennis-bahor": "봄 테니스 컵",
+      "futbol-kubogi": "축구 컵",
+      "futbol-liga": "시티 풋볼 리그",
+      "futbol-7x7": "7인제 미니 풋볼",
+      "futbol-kuz": "가을 축구 대회",
+      "futbol-bahor": "봄 축구 컵",
       "shaxmat-kubogi": "체스 컵",
+      "shaxmat-blits": "블리츠 체스",
+      "shaxmat-yoshlar": "청소년 체스 챔피언십",
       "shahar-yugurishi": "시티 런",
+      "tong-yugurishi": "선라이즈 10K",
+      "marafon-kuz": "가을 마라톤",
       "suzish-kubogi": "수영 컵",
+      "suzish-yoshlar": "청소년 수영 대회",
+      "suzish-yoz": "여름 수영 컵",
+      "bilyard-open": "당구 오픈",
+      "pirat-cup": "피라트 컵 2026",
       "bilyard-turniri": "당구 대회",
-      "basketbol-kubogi": "농구 컵",
-      "futbol-kubogi": "축구 컵"
-    }
+      "basketbol-3x3": "농구 3×3",
+      "basketbol-kubogi": "농구 컵"
+    },
+    "more": "더보기",
+    "back": "홈으로",
+    "all_title": "전체 대회",
+    "sport_title": "{{sport}} 대회",
+    "count_other": "대회 {{count}}개",
+    "empty_status": "아직 이 섹션에 대회가 없습니다.",
+    "prize": "상금: {{amount}}",
+    "players_joined": "참가자 {{count}} / {{max}}명",
+    "teams_joined": "{{count}} / {{max}}개 팀"
   },
   "finished": {
     "title": "대회는 끝나도, 기록은 남습니다.",
@@ -103,7 +123,8 @@
     "host": {
       "title": "개최 클럽",
       "text": "대회 개최를 함께하는 파트너"
-    }
+    },
+    "strip": "함께하는 파트너"
   },
   "cta": {
     "title": "함께 스포츠를 키워갑니다",
@@ -113,5 +134,100 @@
   },
   "footer": {
     "tagline": "스포츠는 사람을 가깝게 합니다."
+  },
+  "banners": {
+    "label": "광고 및 추천 대회",
+    "slide": "{{n}} / {{total}}",
+    "prev": "이전 배너",
+    "next": "다음 배너",
+    "pause": "일시정지",
+    "play": "재생",
+    "goto": "배너 {{n}}(으)로 이동",
+    "open": "접수 중",
+    "ad": "광고",
+    "ad_title": "여기에 브랜드를 알리세요",
+    "ad_text": "대회 참가자와 팬에게 다가가세요. 배너, 상품 또는 개최 클럽 후원사로 함께하세요."
+  },
+  "tpage": {
+    "facts": {
+      "date": "날짜",
+      "place": "장소",
+      "players": "참가자",
+      "fee": "참가비",
+      "prize": "상금",
+      "free": "무료"
+    },
+    "register": "참가 신청 · {{fee}}",
+    "register_free": "참가 신청 · 무료",
+    "closed": "접수 마감",
+    "follow": "결과 보기",
+    "see_results": "결과 보기",
+    "share": "공유",
+    "copied": "링크가 복사되었습니다",
+    "deadline": "{{date}} 23:59에 접수 마감",
+    "live_note": "대회가 진행 중입니다",
+    "ended_note": "대회가 종료되었습니다",
+    "tabs_label": "대회 섹션",
+    "tabs": {
+      "overview": "개요",
+      "players": "참가자 · {{count}}",
+      "bracket": "대진표",
+      "results": "결과",
+      "sponsors": "후원사"
+    },
+    "overview": {
+      "title": "방식과 규칙",
+      "stage1": "1단계",
+      "stage1_t": "조별 리그",
+      "stage1_d": "각 조 상위 2명 진출",
+      "stage2": "2단계",
+      "stage2_t": "토너먼트",
+      "stage2_d": "3판 2선승제, 결승은 5판 3선승제",
+      "level": "수준",
+      "level_t": "아마추어",
+      "level_d": "프로 레이팅이 없는 선수",
+      "rule1": "경기 15분 전까지 도착해야 하며, 10분 지각하면 부전패 처리됩니다.",
+      "rule2": "장비는 현장에서 제공하며 개인 장비를 가져와도 됩니다.",
+      "rule3": "접수 마감 전에 취소하면 참가비가 환불됩니다."
+    },
+    "bracket": {
+      "quarter": "8강",
+      "semi": "4강",
+      "final": "결승 · {{date}}, 19:00",
+      "note": "주최자가 결과를 입력하면 대진표가 바로 업데이트됩니다.",
+      "tbd": "승자",
+      "aria": "대회 대진표"
+    },
+    "players": {
+      "more": "외 {{count}}명",
+      "rating": "레이팅"
+    },
+    "results": {
+      "pending_title": "대회가 끝나면 결과가 공개됩니다",
+      "pending_text": "우승자, 순위, 점수는 이곳에 영구 보관되며 선수 프로필에 추가됩니다.",
+      "podium": "최종 순위",
+      "place": "{{n}}위"
+    },
+    "sponsors": {
+      "logo": "[후원사 로고]",
+      "become": "+ 후원사 되기"
+    },
+    "aside": {
+      "prizes": "상금",
+      "cup": "트로피",
+      "organizer": "주최자",
+      "hosted_other": "대회 {{count}}회 개최",
+      "own_title": "직접 대회를 열고 싶으신가요?",
+      "own_text": "어떤 종목이든 4단계로 만들 수 있고, 참가자와 결제는 Charhpalak이 관리합니다.",
+      "own_link": "대회 만들기 →"
+    },
+    "back": "{{sport}} 대회"
+  },
+  "auth": {
+    "title": "로그인해 주세요",
+    "text": "대회를 저장하려면 먼저 텔레그램으로 로그인하세요.",
+    "login": "텔레그램으로 로그인",
+    "later": "나중에",
+    "close": "닫기"
   }
 }

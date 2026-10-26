@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Arrow, Calendar, Heart, Image, Pin, SPORT_ICONS, User, Users } from './icons.jsx'
-import { BOT_URL, NO_FILTERS, SPORTS, STATUSES, TOURNAMENTS, formatDates } from '../data.js'
-import { photo } from '../photos.js'
+import { Arrow, SPORT_ICONS } from './icons.jsx'
+import TournamentCard from './TournamentCard.jsx'
+import { NO_FILTERS, ROW_LIMIT, SPORTS, SPORT_ROWS, STATUSES, TOURNAMENTS } from '../data.js'
 
 export default function Tournaments({ filters, setFilters }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [status, setStatus] = useState('upcoming')
-  const [liked, setLiked] = useState({})
   const [focus, setFocus] = useState(null)
 
   // Search matches the tournament name in the current language.
   const q = filters.q.trim().toLowerCase()
-  const list = TOURNAMENTS.filter((x) => x.status === status
-    && (filters.sport === 'all' || x.sport === filters.sport)
+  const visible = TOURNAMENTS.filter((x) => x.status === status
     && (!q || t(`tournaments.names.${x.id}`).toLowerCase().includes(q))
     && (!filters.city || x.city === filters.city)
     && (!filters.date || x.end >= filters.date))
+  // One row per sport: the chosen chip narrows it to a single row.
+  const rows = SPORT_ROWS
+    .filter((s) => filters.sport === 'all' || filters.sport === s)
+    .map((s) => ({ sport: s, items: visible.filter((x) => x.sport === s) }))
+    .filter((r) => r.items.length > 0)
   const filtered = JSON.stringify(filters) !== JSON.stringify(NO_FILTERS)
 
   // "#t-<id>" (hero photos): open the card's tab, clear filters, scroll to it and highlight it.
@@ -63,34 +67,28 @@ export default function Tournaments({ filters, setFilters }) {
         </div>
       </div>
 
-      <div className="cards">
-        {list.map((x) => {
-          const name = t(`tournaments.names.${x.id}`)
-          return (
-            <article key={x.id} id={status === 'finished' ? undefined : `t-${x.id}`} className={focus === x.id ? 'tcard focus' : 'tcard'}>
-              <div className="tcard-media">
-                <img {...photo(x.img, 420)} loading="lazy" alt={name} />
-                <span className={x.status === 'finished' ? 'badge badge-done' : 'badge'}>{t(`status.${x.status}`)}</span>
-                <button type="button" className={liked[x.id] ? 'like on' : 'like'} aria-pressed={Boolean(liked[x.id])} aria-label={t('tournaments.save')}
-                  onClick={() => setLiked({ ...liked, [x.id]: !liked[x.id] })}><Heart size={16} /></button>
-              </div>
-              <div className="tcard-body">
-                <h3>{name}</h3>
-                <span className="format">{x.format === 'singles' ? <User size={14} /> : <Users size={14} />}{t(`format.${x.format}`)}</span>
-                <div className="meta">
-                  <span><Calendar size={16} />{formatDates(x.start, x.end, i18n.resolvedLanguage)}</span>
-                  <span><Pin size={16} />{t(`cities.${x.city}`)}</span>
-                </div>
-                <div className="tcard-foot">
-                  <span className="sponsor"><span className="sponsor-logo"><Image size={16} /></span>{t('tournaments.sponsor')}</span>
-                  <a href={BOT_URL} className="btn btn-soft">{t('tournaments.details')} <Arrow size={16} /></a>
-                </div>
-              </div>
-            </article>
-          )
-        })}
-      </div>
-      {list.length === 0 && (
+      {rows.map(({ sport, items }) => {
+        const Icon = SPORT_ICONS[sport]
+        return (
+          <div key={sport} className="sport-row" aria-labelledby={`row-${sport}`}>
+            <div className="row-head">
+              <h3 id={`row-${sport}`}>
+                <span className="sport-i"><Icon size={18} /></span>
+                {t(`sports.${sport}`)}
+                <span className="row-count">{items.length}</span>
+              </h3>
+              <Link to={`/tournaments/${sport}?status=${status}`} className="more">{t('tournaments.more')} <Arrow size={16} /></Link>
+            </div>
+            <div className="cards">
+              {items.slice(0, ROW_LIMIT).map((x) => (
+                <TournamentCard key={x.id} item={x} anchor={status !== 'finished'} focus={focus === x.id} />
+              ))}
+            </div>
+          </div>
+        )
+      })}
+
+      {rows.length === 0 && (
         <div className="empty">
           {t('tournaments.empty')}
           {filtered && <button type="button" className="btn btn-line" onClick={() => setFilters(NO_FILTERS)}>{t('tournaments.clear')}</button>}

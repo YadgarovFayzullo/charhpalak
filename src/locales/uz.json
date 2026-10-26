@@ -27,13 +27,7 @@
     "city_placeholder": "Shahar yoki onlayn",
     "date_label": "Sana",
     "date_placeholder": "Sana",
-    "submit": "Qidirish",
-    "perks": {
-      "more": "Ko‘proq turnirlar",
-      "community": "Faol sport hamjamiyati",
-      "results": "Shaffof natijalar",
-      "platform": "Barchasi bir platformada"
-    }
+    "submit": "Qidirish"
   },
   "sports": {
     "all": "Barchasi",
@@ -73,13 +67,40 @@
     "clear": "Filtrlarni tozalash",
     "names": {
       "tennis-open": "Tennis Open",
+      "tennis-juniors": "Yoshlar tennis kubogi",
+      "tennis-masters": "Tennis Masters",
+      "tennis-yoz": "Kuzgi tennis ligasi",
+      "tennis-bahor": "Bahor tennis kubogi",
+      "futbol-kubogi": "Futbol kubogi",
+      "futbol-liga": "Shahar futbol ligasi",
+      "futbol-7x7": "7×7 mini-futbol",
+      "futbol-kuz": "Kuzgi futbol turniri",
+      "futbol-bahor": "Bahor futbol kubogi",
       "shaxmat-kubogi": "Shaxmat kubogi",
+      "shaxmat-blits": "Blits shaxmat",
+      "shaxmat-yoshlar": "Yoshlar shaxmat chempionati",
       "shahar-yugurishi": "Shahar yugurishi",
+      "tong-yugurishi": "Tong yugurishi 10 km",
+      "marafon-kuz": "Kuzgi marafon",
       "suzish-kubogi": "Suzish kubogi",
+      "suzish-yoshlar": "Yoshlar suzish musobaqasi",
+      "suzish-yoz": "Yozgi suzish kubogi",
+      "bilyard-open": "Bilyard Open",
+      "pirat-cup": "Pirat Cup 2026",
       "bilyard-turniri": "Bilyard turniri",
-      "basketbol-kubogi": "Basketbol kubogi",
-      "futbol-kubogi": "Futbol kubogi"
-    }
+      "basketbol-3x3": "Basketbol 3×3",
+      "basketbol-kubogi": "Basketbol kubogi"
+    },
+    "more": "Ko‘proq",
+    "back": "Bosh sahifaga",
+    "all_title": "Barcha turnirlar",
+    "sport_title": "{{sport}} turnirlari",
+    "count_one": "{{count}} ta turnir",
+    "count_other": "{{count}} ta turnir",
+    "empty_status": "Bu bo‘limda hozircha turnir yo‘q.",
+    "prize": "Sovrin fondi: {{amount}}",
+    "players_joined": "{{count}} / {{max}} ishtirokchi",
+    "teams_joined": "{{count}} / {{max}} jamoa"
   },
   "finished": {
     "title": "Turnir tugadi. Tarix qoladi.",
@@ -103,7 +124,8 @@
     "host": {
       "title": "Mezbon klub",
       "text": "Turnirlarni o‘tkazishda hamkorlik"
-    }
+    },
+    "strip": "Bizning hamkorlar"
   },
   "cta": {
     "title": "Sportni birga rivojlantiramiz",
@@ -113,5 +135,101 @@
   },
   "footer": {
     "tagline": "Sport odamlarni yaqinlashtiradi."
+  },
+  "banners": {
+    "label": "Reklama va asosiy turnirlar",
+    "slide": "{{n}} / {{total}}",
+    "prev": "Oldingi banner",
+    "next": "Keyingi banner",
+    "pause": "To‘xtatish",
+    "play": "Davom ettirish",
+    "goto": "{{n}}-bannerga o‘tish",
+    "open": "Ro‘yxat ochiq",
+    "ad": "Reklama",
+    "ad_title": "Brendingiz shu yerda bo‘lishi mumkin",
+    "ad_text": "Turnirlarimiz ishtirokchilari va tomoshabinlariga yeting. Banner, sovrin yoki mezbon klub sifatida hamkor bo‘ling."
+  },
+  "tpage": {
+    "facts": {
+      "date": "Sana",
+      "place": "Joy",
+      "players": "Ishtirokchilar",
+      "fee": "Kirish to‘lovi",
+      "prize": "Sovrin fondi",
+      "free": "Bepul"
+    },
+    "register": "Ro‘yxatdan o‘tish · {{fee}}",
+    "register_free": "Ro‘yxatdan o‘tish · bepul",
+    "closed": "Ro‘yxat yopilgan",
+    "follow": "Natijalarni kuzatish",
+    "see_results": "Natijalarni ko‘rish",
+    "share": "Ulashish",
+    "copied": "Havola nusxalandi",
+    "deadline": "Ro‘yxat {{date}}, 23:59 da yopiladi",
+    "live_note": "Turnir hozir davom etmoqda",
+    "ended_note": "Turnir yakunlangan",
+    "tabs_label": "Turnir bo‘limlari",
+    "tabs": {
+      "overview": "Umumiy",
+      "players": "Ishtirokchilar · {{count}}",
+      "bracket": "Setka",
+      "results": "Natijalar",
+      "sponsors": "Homiylar"
+    },
+    "overview": {
+      "title": "Format va qoidalar",
+      "stage1": "1-bosqich",
+      "stage1_t": "Guruhlar",
+      "stage1_d": "Har guruhdan 2 kishi o‘tadi",
+      "stage2": "2-bosqich",
+      "stage2_t": "Pley-off",
+      "stage2_d": "3 partiyagacha, final 5 gacha",
+      "level": "Daraja",
+      "level_t": "Havaskorlar",
+      "level_d": "Professional reytingi bo‘lmaganlar",
+      "rule1": "Ishtirokchi o‘z o‘yinidan 15 daqiqa oldin kelishi kerak, 10 daqiqa kechiksa texnik mag‘lubiyat.",
+      "rule2": "Jihozlar klubda beriladi, o‘zingiznikini olib kelish mumkin.",
+      "rule3": "Ro‘yxat yopilgunga qadar bekor qilsangiz, kirish to‘lovi qaytariladi."
+    },
+    "bracket": {
+      "quarter": "Chorak final",
+      "semi": "Yarim final",
+      "final": "Final · {{date}}, 19:00",
+      "note": "Natijalarni tashkilotchi kiritadi, setka shu yerda darhol yangilanadi.",
+      "tbd": "G‘olib",
+      "aria": "Turnir setkasi"
+    },
+    "players": {
+      "more": "va yana {{count}} ta",
+      "rating": "Reyting"
+    },
+    "results": {
+      "pending_title": "Natijalar turnir tugagach chiqadi",
+      "pending_text": "G‘oliblar, o‘rinlar va hisoblar shu yerda abadiy saqlanadi va o‘yinchi profillariga qo‘shiladi.",
+      "podium": "Turnir yakunlari",
+      "place": "{{n}}-o‘rin"
+    },
+    "sponsors": {
+      "logo": "[Homiy logosi]",
+      "become": "+ Homiy bo‘lish"
+    },
+    "aside": {
+      "prizes": "Sovrinlar",
+      "cup": "kubok",
+      "organizer": "Tashkilotchi",
+      "hosted_one": "{{count}} ta turnir o‘tkazgan",
+      "hosted_other": "{{count}} ta turnir o‘tkazgan",
+      "own_title": "O‘z turniringiz bormi?",
+      "own_text": "Istalgan sportda 4 qadamda yarating, ishtirokchi va to‘lovni Charhpalak yig‘adi.",
+      "own_link": "Turnir yaratish →"
+    },
+    "back": "{{sport}} turnirlari"
+  },
+  "auth": {
+    "title": "Tizimga kiring",
+    "text": "Turnirni saqlash uchun avval Telegram orqali tizimga kiring.",
+    "login": "Telegram orqali kirish",
+    "later": "Keyinroq",
+    "close": "Yopish"
   }
 }

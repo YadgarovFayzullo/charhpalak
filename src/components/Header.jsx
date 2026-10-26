@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Globe, Logo, Plus } from './icons.jsx'
 import Select from './Select.jsx'
@@ -12,12 +13,15 @@ const NAV = [
 
 export default function Header() {
   const { t, i18n } = useTranslation()
+  const home = useLocation().pathname === '/'
+  // On the home page sections are plain anchors; on other pages go home first.
+  const section = (hash, props, children) => (home ? <a href={hash} {...props}>{children}</a> : <Link to={`/${hash}`} {...props}>{children}</Link>)
   return (
     <header className="header">
       <div className="wrap header-in">
-        <a href="#top" className="logo" aria-label={t('header.home')}><Logo /><span>Charh<b>palak</b></span></a>
+        {section('#top', { className: 'logo', 'aria-label': t('header.home') }, <><Logo /><span>Charh<b>palak</b></span></>)}
         <nav className="nav" aria-label={t('header.nav_label')}>
-          {NAV.map((n) => <a key={n.key} href={n.href}>{t(`header.nav.${n.key}`)}</a>)}
+          {NAV.map((n) => <span key={n.key} className="nav-item">{section(n.href, {}, t(`header.nav.${n.key}`))}</span>)}
         </nav>
         <div className="header-actions">
           <Select

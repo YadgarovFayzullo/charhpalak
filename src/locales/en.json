@@ -27,13 +27,7 @@
     "city_placeholder": "City or online",
     "date_label": "Date",
     "date_placeholder": "Date",
-    "submit": "Search",
-    "perks": {
-      "more": "More tournaments",
-      "community": "Active sports community",
-      "results": "Transparent results",
-      "platform": "Everything in one place"
-    }
+    "submit": "Search"
   },
   "sports": {
     "all": "All",
@@ -73,13 +67,40 @@
     "clear": "Clear filters",
     "names": {
       "tennis-open": "Tennis Open",
+      "tennis-juniors": "Junior Tennis Cup",
+      "tennis-masters": "Tennis Masters",
+      "tennis-yoz": "Autumn Tennis League",
+      "tennis-bahor": "Spring Tennis Cup",
+      "futbol-kubogi": "Football Cup",
+      "futbol-liga": "City Football League",
+      "futbol-7x7": "7-a-side Mini Football",
+      "futbol-kuz": "Autumn Football Tournament",
+      "futbol-bahor": "Spring Football Cup",
       "shaxmat-kubogi": "Chess Cup",
+      "shaxmat-blits": "Blitz Chess",
+      "shaxmat-yoshlar": "Youth Chess Championship",
       "shahar-yugurishi": "City Run",
+      "tong-yugurishi": "Sunrise 10K",
+      "marafon-kuz": "Autumn Marathon",
       "suzish-kubogi": "Swimming Cup",
+      "suzish-yoshlar": "Youth Swimming Meet",
+      "suzish-yoz": "Summer Swimming Cup",
+      "bilyard-open": "Billiards Open",
+      "pirat-cup": "Pirat Cup 2026",
       "bilyard-turniri": "Billiards Tournament",
-      "basketbol-kubogi": "Basketball Cup",
-      "futbol-kubogi": "Football Cup"
-    }
+      "basketbol-3x3": "Basketball 3×3",
+      "basketbol-kubogi": "Basketball Cup"
+    },
+    "more": "More",
+    "back": "Back to home",
+    "all_title": "All tournaments",
+    "sport_title": "{{sport}} tournaments",
+    "count_one": "{{count}} tournament",
+    "count_other": "{{count}} tournaments",
+    "empty_status": "No tournaments in this section yet.",
+    "prize": "Prize fund: {{amount}}",
+    "players_joined": "{{count}} / {{max}} players",
+    "teams_joined": "{{count}} / {{max}} teams"
   },
   "finished": {
     "title": "The tournament is over. The history stays.",
@@ -103,7 +124,8 @@
     "host": {
       "title": "Host club",
       "text": "Partners who host our tournaments"
-    }
+    },
+    "strip": "Our partners"
   },
   "cta": {
     "title": "Let’s grow sport together",
@@ -113,5 +135,101 @@
   },
   "footer": {
     "tagline": "Sport brings people together."
+  },
+  "banners": {
+    "label": "Advertising and featured tournaments",
+    "slide": "{{n}} / {{total}}",
+    "prev": "Previous banner",
+    "next": "Next banner",
+    "pause": "Pause",
+    "play": "Play",
+    "goto": "Go to banner {{n}}",
+    "open": "Registration open",
+    "ad": "Advertising",
+    "ad_title": "Your brand could be here",
+    "ad_text": "Reach the players and fans of our tournaments. Partner with us as a banner, prize or host-club sponsor."
+  },
+  "tpage": {
+    "facts": {
+      "date": "Date",
+      "place": "Venue",
+      "players": "Participants",
+      "fee": "Entry fee",
+      "prize": "Prize fund",
+      "free": "Free"
+    },
+    "register": "Register · {{fee}}",
+    "register_free": "Register · free",
+    "closed": "Registration closed",
+    "follow": "Follow the results",
+    "see_results": "See results",
+    "share": "Share",
+    "copied": "Link copied",
+    "deadline": "Registration closes on {{date}}, 23:59",
+    "live_note": "The tournament is in progress",
+    "ended_note": "The tournament is over",
+    "tabs_label": "Tournament sections",
+    "tabs": {
+      "overview": "Overview",
+      "players": "Participants · {{count}}",
+      "bracket": "Bracket",
+      "results": "Results",
+      "sponsors": "Sponsors"
+    },
+    "overview": {
+      "title": "Format and rules",
+      "stage1": "Stage 1",
+      "stage1_t": "Groups",
+      "stage1_d": "The top 2 of each group advance",
+      "stage2": "Stage 2",
+      "stage2_t": "Playoff",
+      "stage2_d": "Best of 3, the final is best of 5",
+      "level": "Level",
+      "level_t": "Amateurs",
+      "level_d": "Players without a professional rating",
+      "rule1": "Be at your match 15 minutes early; 10 minutes late is a technical defeat.",
+      "rule2": "Equipment is provided by the venue; you may bring your own.",
+      "rule3": "Cancel before registration closes and the entry fee is refunded."
+    },
+    "bracket": {
+      "quarter": "Quarter-finals",
+      "semi": "Semi-finals",
+      "final": "Final · {{date}}, 19:00",
+      "note": "The organizer enters the results and the bracket updates here instantly.",
+      "tbd": "Winner",
+      "aria": "Tournament bracket"
+    },
+    "players": {
+      "more": "and {{count}} more",
+      "rating": "Rating"
+    },
+    "results": {
+      "pending_title": "Results appear when the tournament ends",
+      "pending_text": "Winners, places and scores are kept here for good and added to the players’ profiles.",
+      "podium": "Final standings",
+      "place": "Place {{n}}"
+    },
+    "sponsors": {
+      "logo": "[Sponsor logo]",
+      "become": "+ Become a sponsor"
+    },
+    "aside": {
+      "prizes": "Prizes",
+      "cup": "trophy",
+      "organizer": "Organizer",
+      "hosted_one": "Has hosted {{count}} tournament",
+      "hosted_other": "Has hosted {{count}} tournaments",
+      "own_title": "Have a tournament of your own?",
+      "own_text": "Create one in 4 steps in any sport; Charhpalak collects participants and payments.",
+      "own_link": "Create a tournament →"
+    },
+    "back": "{{sport}} tournaments"
+  },
+  "auth": {
+    "title": "Please log in",
+    "text": "To save a tournament, log in with Telegram first.",
+    "login": "Log in with Telegram",
+    "later": "Not now",
+    "close": "Close"
   }
 }
