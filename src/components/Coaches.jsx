@@ -1,6 +1,8 @@
+import { photo } from '../photos.js'
+
 const COACHES = [
-  { name: 'Malika R.', rating: '4.9', img: '/images/coach-tennis.jpg', alt: 'Tennis murabbiyi Malika', meta: 'Tennis · 8 yil tajriba · «Olimp» korti', price: '150 000 so‘m / dars' },
-  { name: 'Bekzod T.', rating: '4.8', img: '/images/coach-swim.jpg', alt: 'Suzish murabbiyi Bekzod', meta: 'Suzish · boshlang‘ichdan professionalgacha', price: '120 000 so‘m / dars' },
+  { name: 'Malika R.', rating: '4.9', img: 'coachTennis', alt: 'Tennis murabbiyi Malika', meta: 'Tennis · 8 yil tajriba · «Olimp» korti', price: '150 000 so‘m / dars' },
+  { name: 'Bekzod T.', rating: '4.8', img: 'coachSwim', alt: 'Suzish murabbiyi Bekzod', meta: 'Suzish · boshlang‘ichdan professionalgacha', price: '120 000 so‘m / dars' },
 ]
 
 export default function Coaches() {
@@ -20,7 +22,7 @@ export default function Coaches() {
         </div>
         {COACHES.map((c) => (
           <a key={c.name} href="#" className="coach">
-            <img src={c.img} alt={c.alt} />
+            <img {...photo(c.img, 420)} loading="lazy" alt={c.alt} />
             <div className="coach-body">
               <div className="coach-top"><b>{c.name}</b><span>★ {c.rating}</span></div>
               <span className="coach-meta">{c.meta}</span>

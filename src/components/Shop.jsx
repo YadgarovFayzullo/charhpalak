@@ -1,3 +1,5 @@
+import { photo } from '../photos.js'
+
 export default function Shop() {
   return (
     <section className="light">
@@ -12,7 +14,7 @@ export default function Shop() {
             <button type="submit" className="btn bd btn-52">Xabar bering</button>
           </form>
         </div>
-        <img src="/images/shop.jpg" alt="Sport sumkasi, raketka, to‘plar va gantellar" className="shop-img" />
+        <img {...photo('shop', 640)} loading="lazy" alt="Tennis raketkalari va to‘plar" className="shop-img" />
       </div>
     </section>
   )

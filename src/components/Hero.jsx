@@ -1,4 +1,5 @@
 import { Logo, Arrow, Check, Ball, Pin, Calendar, Search } from './icons.jsx'
+import { photo } from '../photos.js'
 
 export const NAV = [
   { label: 'O‘yinchilar', href: '#how' },
@@ -50,9 +51,9 @@ export default function Hero() {
 
         <div className="hero-media">
           <div className="hero-ring" aria-hidden="true" />
-          <img src="/images/hero-padel.jpg" alt="Padel raketkasi bilan o‘yinchi qiz" className="hm-main" />
-          <img src="/images/hero-swim.jpg" alt="Basseynda suzayotgan sportchi" className="hm-top" />
-          <img src="/images/hero-basketball.jpg" alt="Basketbol o‘ynayotgan yigitlar" className="hm-bottom" />
+          <img {...photo('heroPadel', 480)} fetchPriority="high" alt="Padel o‘ynayotgan sportchi" className="hm-main" />
+          <img {...photo('heroSwim', 420)} alt="Basseynda suzayotgan sportchi" className="hm-top" />
+          <img {...photo('heroBasketball', 420)} alt="Basketbol o‘ynayotgan yigitlar" className="hm-bottom" />
           <div className="card hero-toast">
             <span className="toast-icon"><Check /></span>
             <span className="toast-text">

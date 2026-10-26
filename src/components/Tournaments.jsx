@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { photo } from '../photos.js'
 
 const TABS = [
   { id: 'k', label: 'Kutilayotgan' },
@@ -13,11 +14,11 @@ const BADGE = {
 }
 
 const CARDS = [
-  { s: 'k', img: '/images/chess.jpg', title: 'Shaxmat kubogi', meta: 'Toshkent · 10-noyabr · Yakka', foot: '32 / 64 ishtirokchi', cta: 'Yozilish' },
-  { s: 'k', img: '/images/billiards.jpg', title: 'Pirat Cup 2026', meta: '«Pirat» bilyard klubi · 12-noyabr', foot: 'Sovrin: 5 000 000 so‘m', cta: 'Yozilish' },
-  { s: 'k', img: '/images/coach-tennis.jpg', title: 'Kuzgi tennis ochiq turniri', meta: '«Olimp» korti · 20-noyabr', foot: '18 / 32 ishtirokchi', cta: 'Yozilish' },
-  { s: 'd', img: '/images/marathon.jpg', title: 'Shahar marafoni', meta: 'Samarqand · bugun', foot: '200+ yuguruvchi', cta: 'Jonli natijalar' },
-  { s: 'y', img: '/images/basketball-cup.jpg', title: 'Basketbol kubogi', meta: '12 jamoa · 96 ishtirokchi', foot: 'G‘olib: Phoenix', cta: 'Natijalar' },
+  { s: 'k', img: 'chess', title: 'Shaxmat kubogi', meta: 'Toshkent · 10-noyabr · Yakka', foot: '32 / 64 ishtirokchi', cta: 'Yozilish' },
+  { s: 'k', img: 'billiardsPlayer', title: 'Pirat Cup 2026', meta: '«Pirat» bilyard klubi · 12-noyabr', foot: 'Sovrin: 5 000 000 so‘m', cta: 'Yozilish' },
+  { s: 'k', img: 'tennis', title: 'Kuzgi tennis ochiq turniri', meta: '«Olimp» korti · 20-noyabr', foot: '18 / 32 ishtirokchi', cta: 'Yozilish' },
+  { s: 'd', img: 'marathon', title: 'Shahar marafoni', meta: 'Samarqand · bugun', foot: '200+ yuguruvchi', cta: 'Jonli natijalar' },
+  { s: 'y', img: 'basketballCup', title: 'Basketbol kubogi', meta: '12 jamoa · 96 ishtirokchi', foot: 'G‘olib: Phoenix', cta: 'Natijalar' },
 ]
 
 export default function Tournaments() {
@@ -51,7 +52,7 @@ export default function Tournaments() {
         {cards.map((c) => (
           <a key={c.title} href="#" className="tc">
             <div className="tc-media">
-              <img src={c.img} alt={c.title} />
+              <img {...photo(c.img, 420)} loading="lazy" alt={c.title} />
               <span className={`pill tc-badge ${BADGE[c.s].cls}`}>{BADGE[c.s].label}</span>
             </div>
             <div className="tc-body">

@@ -1,4 +1,5 @@
 import { Arrow } from './icons.jsx'
+import { photo } from '../photos.js'
 
 const BOOKINGS = [
   { time: '10:00', place: 'Rus bilyardi, stol 1', status: 'Bron' },
@@ -33,7 +34,7 @@ export default function Business() {
         </div>
 
         <div className="biz-media">
-          <img src="/images/billiards.jpg" alt="Bilyard zali" className="biz-img" />
+          <img {...photo('billiardsBar', 320)} loading="lazy" alt="Bilyard zali" className="biz-img" />
           <div className="biz-panel">
             <div className="biz-panel-head">
               <b>Bronlar · bugun</b>
