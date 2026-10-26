@@ -221,7 +221,9 @@
     },
     "sponsors": {
       "logo": "[Sponsor logo]",
-      "become": "+ Become a sponsor"
+      "become": "+ Become a sponsor",
+      "title": "Title sponsor",
+      "partner": "Sponsor"
     },
     "aside": {
       "prizes": "Prizes",

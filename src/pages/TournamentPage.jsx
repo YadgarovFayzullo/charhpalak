@@ -5,6 +5,7 @@ import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import { Arrow, Calendar, Check, Pin, Trophy, User, Users } from '../components/icons.jsx'
 import { PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, locations, registrationDeadline, standings } from '../data.js'
+import { Mark } from '../components/Partners.jsx'
 import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
@@ -235,7 +236,13 @@ export default function TournamentPage() {
 
               {active === 'sponsors' && (
                 <div className="tp-sponsors">
-                  {PARTNER_LOGOS.slice(0, 5).map((l) => <div key={l.name} className="tp-sponsor">{t('tpage.sponsors.logo')}</div>)}
+                  {Array.from({ length: 5 }, (_, i) => {
+                    // Sample: the first three slots are taken (title sponsor + two partners), the rest are free.
+                    const l = i < 3 ? PARTNER_LOGOS[(x.id.length + i) % PARTNER_LOGOS.length] : null
+                    return l
+                      ? <div key={l.name} className={i === 0 ? 'tp-sponsor taken title' : 'tp-sponsor taken'}><Mark mark={l.mark} size={i === 0 ? 40 : 30} /><b>{l.name}</b><small>{t(i === 0 ? 'tpage.sponsors.title' : 'tpage.sponsors.partner')}</small></div>
+                      : <div key={i} className="tp-sponsor">{t('tpage.sponsors.logo')}</div>
+                  })}
                   <button type="button" className="tp-sponsor tp-sponsor-add" onClick={openSponsor}>{t('tpage.sponsors.become')}</button>
                 </div>
               )}

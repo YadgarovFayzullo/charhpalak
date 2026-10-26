@@ -198,7 +198,9 @@ button, input, select { font: inherit; color: inherit; }
 .seg button.on .seg-n { background: var(--white); }
 
 /* Tournament cards */
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .cards { grid-template-columns: minmax(0, 1fr); } }
 .cards-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
 .tcard { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--white); box-shadow: 0 1px 2px rgba(15, 26, 19, .04); scroll-margin: 120px; transition: box-shadow .3s; display: flex; flex-direction: column; }
 .tcard:hover { box-shadow: 0 10px 30px rgba(15, 26, 19, .08); }
@@ -448,3 +450,7 @@ button.more { background: none; border: 0; padding: 0; cursor: pointer; color: i
 .pod-stats dd { margin: 2px 0 0; font-weight: 700; }
 .tp-podium li.place-1 { border-color: #9BD32A; background: var(--lime-soft); }
 .tp-podium li.place-1 .pod-stats div { background: var(--white); }
+
+.tp-sponsor.taken { gap: 4px; align-content: center; justify-items: center; border-style: solid; color: var(--ink); padding: 14px 8px; }
+.tp-sponsor.taken small { color: var(--ink-mu); }
+.tp-sponsor.title { grid-column: span 2; background: var(--lime-soft); border-color: #9BD32A; }

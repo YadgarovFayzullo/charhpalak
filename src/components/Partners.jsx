@@ -16,10 +16,14 @@ const MARKS = {
   tri: <path d="M12 3 22 20H2z" />,
 }
 
+export const Mark = ({ mark, size = 28 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{MARKS[mark]}</svg>
+)
+
 function Logo({ name, mark }) {
   return (
     <li className="logo-item">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{MARKS[mark]}</svg>
+      <Mark mark={mark} />
       <span>{name}</span>
     </li>
   )

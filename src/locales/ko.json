@@ -220,7 +220,9 @@
     },
     "sponsors": {
       "logo": "[후원사 로고]",
-      "become": "+ 후원사 되기"
+      "become": "+ 후원사 되기",
+      "title": "타이틀 후원사",
+      "partner": "후원사"
     },
     "aside": {
       "prizes": "상금",

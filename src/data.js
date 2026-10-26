@@ -11,7 +11,7 @@ export const SPORTS = ['all', 'futbol', 'tennis', 'shaxmat', 'yugurish', 'suzish
 export const SPORT_ROWS = SPORTS.filter((s) => s !== 'all')
 
 // Cards shown per sport row on the landing; the rest is behind «More».
-export const ROW_LIMIT = 4
+export const ROW_LIMIT = 3
 
 export const NO_FILTERS = { q: '', sport: 'all', city: '', date: '' }
 

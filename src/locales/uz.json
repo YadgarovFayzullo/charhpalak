@@ -221,7 +221,9 @@
     },
     "sponsors": {
       "logo": "[Homiy logosi]",
-      "become": "+ Homiy bo‘lish"
+      "become": "+ Homiy bo‘lish",
+      "title": "Bosh homiy",
+      "partner": "Homiy"
     },
     "aside": {
       "prizes": "Sovrinlar",
