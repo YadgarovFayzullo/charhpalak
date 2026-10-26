@@ -208,7 +208,10 @@
       "pending_title": "대회가 끝나면 결과가 공개됩니다",
       "pending_text": "우승자, 순위, 점수는 이곳에 영구 보관되며 선수 프로필에 추가됩니다.",
       "podium": "최종 순위",
-      "place": "{{n}}위"
+      "place": "{{n}}위",
+      "prize": "상금",
+      "matches": "경기 (승–패)",
+      "games": "세트"
     },
     "sponsors": {
       "logo": "[후원사 로고]",
@@ -225,6 +228,12 @@
       "extra": "보조 경기장",
       "places": "{{count}}면",
       "map": "지도에서 열기"
+    },
+    "schedule": {
+      "title": "일정",
+      "reg": "접수 마감",
+      "start": "시작",
+      "final": "결승"
     }
   },
   "auth": {

@@ -180,3 +180,24 @@ export function locations(x) {
   if (x.format === 'team' || x.max > 16) list.push({ name: `${org.name} 2`, address: VENUE_STREETS[(n + 1) % 4], role: 'extra', n: 2 + (n % 3) })
   return list
 }
+
+const PRIZE_SPLIT = [50, 30, 20]
+
+/** Podium of a finished tournament with each player's record taken from the bracket scores. */
+export function standings(x) {
+  const br = bracket(x)
+  const tally = {}
+  const add = (p, won, gf, ga) => {
+    const r = (tally[p.name] ||= { w: 0, l: 0, gf: 0, ga: 0 })
+    r[won ? 'w' : 'l']++
+    r.gf += gf
+    r.ga += ga
+  }
+  for (const m of [...br.quarter, ...br.semi, br.final]) {
+    if (m.sa == null) continue
+    add(m.a, m.sa > m.sb, m.sa, m.sb)
+    add(m.b, m.sb > m.sa, m.sb, m.sa)
+  }
+  const fund = x.prize ?? (x.players || 8) * 500000 // sample: finished tournaments keep no fund yet
+  return br.podium.map((p, i) => ({ p, place: i + 1, ...tally[p.name], prize: Math.round(fund * PRIZE_SPLIT[i] / 100 / 10000) * 10000 }))
+}

@@ -3,6 +3,9 @@ const IDS = {
   heroTennis: 'photo-1597726364265-02f57397c03c', // woman holding a tennis racket
   heroSwim: 'photo-1530549387789-4c1017266635', // butterfly stroke
   heroChess: 'photo-1523875194681-bedd468c58bf', // man playing chess
+  heroFootball: 'photo-1769859177812-d283ad3a4713', // goalkeeper defends the goal
+  heroRun: 'photo-1759674861540-afed9f86f94a', // runners in motion during a race
+  heroBasket: 'photo-1759694415651-06e2fe97295a', // players jump for a rebound
   tennis: 'photo-1709403552725-97e0ba206cb8', // female tennis player in action
   chess: 'photo-1768839722425-4f209a3e4fda', // hand moving a chess piece
   marathon: 'photo-1745790289741-12a211a8325d', // marathon on a city street

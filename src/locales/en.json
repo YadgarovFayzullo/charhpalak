@@ -209,7 +209,10 @@
       "pending_title": "Results appear when the tournament ends",
       "pending_text": "Winners, places and scores are kept here for good and added to the players’ profiles.",
       "podium": "Final standings",
-      "place": "Place {{n}}"
+      "place": "Place {{n}}",
+      "prize": "Prize",
+      "matches": "Matches (W–L)",
+      "games": "Games"
     },
     "sponsors": {
       "logo": "[Sponsor logo]",
@@ -226,6 +229,12 @@
       "extra": "Second venue",
       "places": "{{count}} spots",
       "map": "Open in maps"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "reg": "Registration closes",
+      "start": "Start",
+      "final": "Final"
     }
   },
   "auth": {

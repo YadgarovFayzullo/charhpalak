@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import { Arrow, Calendar, Check, Pin, Trophy, User, Users } from '../components/icons.jsx'
-import { PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, locations, registrationDeadline } from '../data.js'
+import { PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, locations, registrationDeadline, standings } from '../data.js'
 import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
@@ -64,10 +64,14 @@ export default function TournamentPage() {
   }
   // A fact tile leads to the part of the page that explains it: a tab, or a card in the sidebar.
   const jump = (go) => {
-    const target = go.startsWith('#') ? go.slice(1) : 'tp-tabs'
-    if (!go.startsWith('#')) setTab(go)
+    const [tabName, anchor] = go.split('#') // "tab", "tab#element" or "#element" (a card outside the tabs)
+    const target = anchor || 'tp-tabs'
+    if (tabName) setTab(tabName)
     requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
   }
+  useEffect(() => {
+    if (tab) document.getElementById(`tab-${tab}`)?.scrollIntoView({ inline: 'nearest', block: 'nearest' })
+  }, [tab])
   const onTabKey = (e) => {
     const i = TABS.indexOf(active)
     const n = e.key === 'ArrowRight' ? (i + 1) % TABS.length : e.key === 'ArrowLeft' ? (i + TABS.length - 1) % TABS.length : -1
@@ -78,7 +82,7 @@ export default function TournamentPage() {
   }
 
   const facts = [
-    { k: 'date', go: 'bracket', icon: <Calendar size={18} />, v: formatDates(x.start, x.end, lng) },
+    { k: 'date', go: 'overview#tp-schedule', icon: <Calendar size={18} />, v: formatDates(x.start, x.end, lng) },
     { k: 'place', go: 'locations', icon: <Pin size={18} />, v: t(`cities.${x.city}`) },
     { k: 'players', go: 'players', icon: team ? <Users size={18} /> : <User size={18} />, v: finished ? t(team ? 'finished.teams' : 'finished.players', { teams: x.teams, count: x.players }) : t(team ? 'tournaments.teams_joined' : 'tournaments.players_joined', { count: x.joined, max: x.max }) },
     !finished && { k: 'fee', go: '#tp-fee', icon: <Check size={18} />, v: fee ? formatMoney(fee, lng) : t('tpage.facts.free') },
@@ -139,6 +143,14 @@ export default function TournamentPage() {
             <div id={`panel-${active}`} role="tabpanel" aria-labelledby={`tab-${active}`} tabIndex={0} className="tp-panel">
               {active === 'overview' && (
                 <>
+                  <div id="tp-schedule" className="tp-schedule">
+                    <h2>{t('tpage.schedule.title')}</h2>
+                    <ul>
+                      {upcoming && <li><span>{t('tpage.schedule.reg')}</span><b>{formatDates(registrationDeadline(x), registrationDeadline(x), lng)}, 23:59</b></li>}
+                      <li><span>{t('tpage.schedule.start')}</span><b>{formatDates(x.start, x.start, lng)}</b></li>
+                      <li><span>{t('tpage.schedule.final')}</span><b>{formatDates(x.end, x.end, lng)}, 19:00</b></li>
+                    </ul>
+                  </div>
                   <h2>{t('tpage.overview.title')}</h2>
                   <div className="tp-steps">
                     {['stage1', 'stage2', 'level'].map((k) => (
@@ -199,10 +211,18 @@ export default function TournamentPage() {
                 <>
                   <h2>{t('tpage.results.podium')}</h2>
                   <ol className="tp-podium">
-                    {br.podium.map((p, i) => (
-                      <li key={p.name}>
-                        <span className="seat-i" style={{ background: p.bg }}>{p.i}</span>
-                        <span><small>{t('tpage.results.place', { n: i + 1 })}</small><b>{p.name}</b></span>
+                    {standings(x).map((r) => (
+                      <li key={r.p.name} className={`place-${r.place}`}>
+                        <div className="pod-top">
+                          <span className="seat-i" style={{ background: r.p.bg }}>{r.p.i}</span>
+                          <span className="pod-name"><small>{t('tpage.results.place', { n: r.place })}</small><b>{r.p.name}</b></span>
+                          <span className="pod-prize"><small>{t('tpage.results.prize')}</small><b>{formatMoney(r.prize, lng)}</b></span>
+                        </div>
+                        <dl className="pod-stats">
+                          <div><dt>{t('tpage.results.matches')}</dt><dd>{r.w}–{r.l}</dd></div>
+                          <div><dt>{t('tpage.results.games')}</dt><dd>{r.gf}–{r.ga}</dd></div>
+                          <div><dt>{t('tpage.players.rating')}</dt><dd>{r.p.r}</dd></div>
+                        </dl>
                       </li>
                     ))}
                   </ol>

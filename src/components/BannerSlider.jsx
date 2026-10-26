@@ -6,11 +6,11 @@ import { BANNERS, BANNER_INTERVAL, TOURNAMENTS, formatDates } from '../data.js'
 import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
-// Diagonal photo strips on the brand slide; each opens the matching tournament card below.
+// Diagonal photo strips on the brand slide; each opens that tournament’s page.
 const STRIPS = [
-  { img: 'heroTennis', id: 'tennis-open' },
-  { img: 'heroSwim', id: 'suzish-kubogi' },
-  { img: 'heroChess', id: 'shaxmat-kubogi' },
+  { img: 'heroFootball', id: 'futbol-kubogi' },
+  { img: 'heroRun', id: 'shahar-yugurishi' },
+  { img: 'heroBasket', id: 'basketbol-3x3' },
 ]
 
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
@@ -157,9 +157,9 @@ function BrandSlide({ t }) {
     <>
       <div className="hero-photos">
         {STRIPS.map((s, i) => (
-          <a key={s.img} href={`#t-${s.id}`} className={`strip strip-${i}`} aria-label={t(`tournaments.names.${s.id}`)}>
+          <Link key={s.img} to={`/tournament/${s.id}`} className={`strip strip-${i}`} aria-label={t(`tournaments.names.${s.id}`)}>
             <img {...photo(s.img, 420)} fetchpriority={i === 0 ? 'high' : undefined} alt="" />
-          </a>
+          </Link>
         ))}
       </div>
       <div className="wrap banner-in">

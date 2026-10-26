@@ -209,7 +209,10 @@
       "pending_title": "Natijalar turnir tugagach chiqadi",
       "pending_text": "G‘oliblar, o‘rinlar va hisoblar shu yerda abadiy saqlanadi va o‘yinchi profillariga qo‘shiladi.",
       "podium": "Turnir yakunlari",
-      "place": "{{n}}-o‘rin"
+      "place": "{{n}}-o‘rin",
+      "prize": "Mukofot",
+      "matches": "O‘yinlar (G‘–M)",
+      "games": "Partiyalar"
     },
     "sponsors": {
       "logo": "[Homiy logosi]",
@@ -226,6 +229,12 @@
       "extra": "Qo‘shimcha maydon",
       "places": "{{count}} ta joy",
       "map": "Xaritada ochish"
+    },
+    "schedule": {
+      "title": "Jadval",
+      "reg": "Ro‘yxat yopiladi",
+      "start": "Boshlanishi",
+      "final": "Final"
     }
   },
   "auth": {
