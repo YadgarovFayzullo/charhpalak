@@ -11,7 +11,7 @@ from .admin import tournaments as admin_tournaments
 from .config import settings
 from .db import SessionLocal, migrate
 from .reminders import reminder_loop
-from .routers import applications, bookings, clubs, games, tournaments, users
+from .routers import applications, bookings, clubs, games, tournaments, users, views
 from .seed import seed
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -39,7 +39,7 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-for module in (users, clubs, bookings, games, tournaments, applications):
+for module in (users, clubs, bookings, games, tournaments, applications, views):
     app.include_router(module.router)
 for module in (admin_auth, dashboard, requests, admin_tournaments, content, directory, payments, complaints, team):
     app.include_router(module.router)

@@ -3,9 +3,10 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
-import { Arrow, Calendar, Check, Pin, Trophy, User, Users } from '../components/icons.jsx'
+import { Arrow, Calendar, Check, Eye, Pin, Trophy, User, Users } from '../components/icons.jsx'
 import { PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, locations, registrationDeadline, standings } from '../data.js'
 import { Mark } from '../components/Partners.jsx'
+import { fetchViews, trackView, viewsEnabled } from '../views.js'
 import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
@@ -43,7 +44,14 @@ export default function TournamentPage() {
   const x = TOURNAMENTS.find((c) => c.id === slug)
   const [tab, setTab] = useState(null)
   const [copied, setCopied] = useState(false)
+  const [views, setViews] = useState(null)
   const { openSponsor } = useSponsor()
+  useEffect(() => {
+    if (!x || !viewsEnabled) return
+    setViews(null)
+    fetchViews(slug).then(setViews, () => {})
+    return trackView(slug, setViews)
+  }, [slug]) // eslint-disable-line react-hooks/exhaustive-deps
   if (!x) return <Navigate to="/tournaments" replace />
 
   const name = t(`tournaments.names.${x.id}`)
@@ -113,6 +121,7 @@ export default function TournamentPage() {
               <span className={finished ? 'badge-pill done' : 'badge-pill'}>{t(`status.${x.status}`)}</span>
               <span className="pill">{sportName}</span>
               <span className="pill">{t(`format.${x.format}`)}</span>
+              {views != null && <span className="pill pill-views" title={t('tpage.views_hint')}><Eye size={14} />{t('tpage.views', { count: views, formatted: views.toLocaleString(lng) })}</span>}
             </div>
             <h1 className="tp-title">{name}</h1>
             <div className="tp-facts">

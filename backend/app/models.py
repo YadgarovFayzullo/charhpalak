@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from sqlalchemy import JSON, BigInteger, Boolean, Date, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, Index, BigInteger, Boolean, Date, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .db import Base
@@ -367,3 +367,24 @@ class Activity(Base):
     at: Mapped[datetime] = mapped_column(DateTime, default=now)
 
     user: Mapped[User | None] = relationship()
+
+
+class TournamentView(Base):
+    """Counted views of a public tournament page (the landing's slug, not necessarily a row of `tournaments`)."""
+
+    __tablename__ = "tournament_views"
+
+    slug: Mapped[str] = mapped_column(String(64), primary_key=True)
+    total: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class TournamentViewHit(Base):
+    """Anti-abuse log: one row per counted view. `visitor` is a salted hash, never an IP or user agent."""
+
+    __tablename__ = "tournament_view_hits"
+    __table_args__ = (Index("ix_view_hits_slug_visitor", "slug", "visitor"), Index("ix_view_hits_visitor_seen", "visitor", "seen_at"))
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    slug: Mapped[str] = mapped_column(String(64))
+    visitor: Mapped[str] = mapped_column(String(64))
+    seen_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)

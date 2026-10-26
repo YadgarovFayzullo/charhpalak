@@ -455,3 +455,4 @@ button.more { background: none; border: 0; padding: 0; cursor: pointer; color: i
 .tp-sponsor.taken small { color: var(--ink-mu); }
 .tp-sponsor.title { grid-column: span 2; background: var(--lime-soft); border-color: #9BD32A; }
 .logo-img { height: 36px; width: auto; max-width: none; }
+.pill-views { display: inline-flex; align-items: center; gap: 6px; }

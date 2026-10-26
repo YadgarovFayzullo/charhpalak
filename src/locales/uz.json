@@ -242,7 +242,10 @@
       "reg": "Ro‘yxat yopiladi",
       "start": "Boshlanishi",
       "final": "Final"
-    }
+    },
+    "views_one": "{{formatted}} ta ko‘rish",
+    "views_other": "{{formatted}} ta ko‘rish",
+    "views_hint": "Takroriy va avtomatik ko‘rishlar hisobga olinmaydi"
   },
   "auth": {
     "title": "Tizimga kiring",

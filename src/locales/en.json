@@ -242,7 +242,10 @@
       "reg": "Registration closes",
       "start": "Start",
       "final": "Final"
-    }
+    },
+    "views_one": "{{formatted}} view",
+    "views_other": "{{formatted}} views",
+    "views_hint": "Repeat and automated views are not counted"
   },
   "auth": {
     "title": "Please log in",

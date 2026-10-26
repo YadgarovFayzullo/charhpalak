@@ -241,7 +241,9 @@
       "reg": "접수 마감",
       "start": "시작",
       "final": "결승"
-    }
+    },
+    "views_other": "조회 {{formatted}}",
+    "views_hint": "중복 및 자동 조회는 집계되지 않습니다"
   },
   "auth": {
     "title": "로그인해 주세요",

@@ -22,6 +22,8 @@ class Settings:
     notify_secret: str = field(default_factory=lambda: os.getenv("NOTIFY_SECRET", ""))
     admin_ids: frozenset[int] = field(default_factory=lambda: _ids(os.getenv("ADMIN_IDS", "")))
     cors_origins: list[str] = field(default_factory=lambda: os.getenv("CORS_ORIGINS", "*").split(","))
+    view_salt: str = field(default_factory=lambda: os.getenv("VIEW_SALT", ""))
+    trust_proxy: bool = field(default_factory=lambda: os.getenv("TRUST_PROXY", "1") == "1")
     dev_mode: bool = field(default_factory=lambda: os.getenv("DEV_MODE", "0") == "1")
     dev_user_id: int = field(default_factory=lambda: int(os.getenv("DEV_USER_ID", "1000")))
 
