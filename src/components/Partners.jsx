@@ -26,16 +26,18 @@ function Logo({ name, mark }) {
 }
 
 /** Endless logo strip: two identical groups slide left by exactly one group, so the loop is seamless. */
-function Marquee({ label }) {
+export function PartnersStrip() {
+  const { t } = useTranslation()
+  const label = t('partners.strip')
   const group = [...PARTNER_LOGOS, ...PARTNER_LOGOS] // long enough to cover very wide screens
   return (
-    <div className="marquee" role="region" aria-label={label}>
+    <div className="wrap strip-wrap"><div className="marquee" role="region" aria-label={label}>
       <div className="marquee-track">
         <ul className="marquee-group">{group.map((l, i) => <Logo key={i} {...l} />)}</ul>
         {/* Visual copy for the loop only: hidden from assistive tech and the tab order */}
         <ul className="marquee-group" aria-hidden="true">{group.map((l, i) => <Logo key={i} {...l} />)}</ul>
       </div>
-    </div>
+    </div></div>
   )
 }
 
@@ -47,7 +49,6 @@ export default function Partners() {
         <h2>{t('partners.title')}</h2>
         <button type="button" className="more">{t('partners.all')} <Arrow size={16} /></button>
       </div>
-      <Marquee label={t('partners.strip')} />
       <div className="partners">
         {PARTNERS.map((p) => {
           const Icon = ICONS[p.icon]

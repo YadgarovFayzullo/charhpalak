@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import TournamentsPage from './pages/TournamentsPage.jsx'
+import OfferPage from './pages/OfferPage.jsx'
 import TournamentPage from './pages/TournamentPage.jsx'
 
 // New page → top; "/#section" → that section. "#t-…" is handled by the tournament rows themselves.
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/tournaments" element={<TournamentsPage />} />
         <Route path="/tournaments/:sport" element={<TournamentsPage />} />
         <Route path="/tournament/:slug" element={<TournamentPage />} />
+        <Route path="/oferta" element={<OfferPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

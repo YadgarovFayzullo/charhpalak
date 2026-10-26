@@ -27,7 +27,8 @@
     "city_placeholder": "City or online",
     "date_label": "Date",
     "date_placeholder": "Date",
-    "submit": "Search"
+    "submit": "Search",
+    "reset": "Reset filters"
   },
   "sports": {
     "all": "All",
@@ -174,7 +175,8 @@
       "players": "Participants · {{count}}",
       "bracket": "Bracket",
       "results": "Results",
-      "sponsors": "Sponsors"
+      "sponsors": "Sponsors",
+      "locations": "Locations"
     },
     "overview": {
       "title": "Format and rules",
@@ -215,15 +217,16 @@
     },
     "aside": {
       "prizes": "Prizes",
-      "cup": "trophy",
-      "organizer": "Organizer",
-      "hosted_one": "Has hosted {{count}} tournament",
-      "hosted_other": "Has hosted {{count}} tournaments",
-      "own_title": "Have a tournament of your own?",
-      "own_text": "Create one in 4 steps in any sport; KiGo collects participants and payments.",
-      "own_link": "Create a tournament →"
+      "cup": "trophy"
     },
-    "back": "{{sport}} tournaments"
+    "back": "{{sport}} tournaments",
+    "locations": {
+      "title": "Where the games are played",
+      "main": "Main venue",
+      "extra": "Second venue",
+      "places": "{{count}} spots",
+      "map": "Open in maps"
+    }
   },
   "auth": {
     "title": "Please log in",
@@ -248,7 +251,7 @@
       "other": "Other"
     },
     "message": "Message",
-    "agree": "I agree to my data being processed so you can contact me",
+    "agree": "I have read the <offer>public offer</offer> and agree to my data being processed so you can contact me",
     "submit": "Send",
     "sending": "Sending…",
     "failed": "Could not send. Please try again.",
@@ -259,5 +262,33 @@
     "done_title": "Thank you!",
     "done_text": "Your request has been received. We will contact you soon.",
     "done_close": "Close"
+  },
+  "offer": {
+    "title": "Public offer",
+    "back": "Home",
+    "draft": "Sample text: it will be replaced when the real document is approved.",
+    "updated": "Last updated: 1 November 2026",
+    "sections": [
+      {
+        "h": "1. General provisions",
+        "p": "This document sets out the terms of cooperation between the KiGo platform (the “Platform”) and the person applying to become a sponsor (the “Sponsor”)."
+      },
+      {
+        "h": "2. Sponsorship terms",
+        "p": "The type, amount and placements of the sponsorship are agreed separately and confirmed in writing. Submitting a request creates no obligation."
+      },
+      {
+        "h": "3. Payment",
+        "p": "The amount and deadline are stated in the agreement between the parties. Payment is made only after the agreement is signed."
+      },
+      {
+        "h": "4. Data processing",
+        "p": "Data submitted by the Sponsor is used only to get in touch and agree the terms of cooperation, and is not passed to third parties."
+      },
+      {
+        "h": "5. Liability and disputes",
+        "p": "Disputes are settled by negotiation and, failing that, under the legislation of the Republic of Uzbekistan."
+      }
+    ]
   }
 }

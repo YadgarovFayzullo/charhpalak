@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import Dialog from './components/Dialog.jsx'
+import { OFFER_URL } from './data.js'
 import { submitLead } from './leads.js'
 
 const SponsorContext = createContext(null)
@@ -95,7 +96,12 @@ function SponsorForm({ onClose }) {
         <input className="hp" tabIndex={-1} autoComplete="off" aria-hidden="true" value={f.site} onChange={set('site')} name="site" />
         <label className="ff-check">
           <input id="sp-agree" type="checkbox" checked={f.agree} onChange={set('agree')} aria-invalid={!!errors.agree} />
-          <span>{t('sponsor.agree')}</span>
+          <span>
+            <Trans
+              i18nKey="sponsor.agree"
+              components={{ offer: OFFER_URL ? <a href={OFFER_URL} target="_blank" rel="noopener noreferrer" /> : <span /> }}
+            />
+          </span>
         </label>
         {errors.agree && <em className="ff-err" role="alert">{t('sponsor.err_agree')}</em>}
         {state === 'failed' && <em className="ff-err" role="alert">{t('sponsor.failed')}</em>}

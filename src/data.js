@@ -3,6 +3,9 @@
 
 // The mini app lives in the Telegram bot: every call to action opens it.
 
+/** Public offer (oferta) document. Currently the sample page /oferta; replace with the real document link (empty = text without a link). */
+export const OFFER_URL = '/oferta'
+
 export const SPORTS = ['all', 'futbol', 'tennis', 'shaxmat', 'yugurish', 'suzish', 'bilyard', 'boshqa']
 
 export const SPORT_ROWS = SPORTS.filter((s) => s !== 'all')
@@ -164,4 +167,16 @@ export function bracket(x) {
     final: done ? final : { a: null, b: null, sa: null, sb: null },
     podium: done ? [final.sa > final.sb ? final.a : final.b, final.sa > final.sb ? final.b : final.a, sf[0].sa > sf[0].sb ? sf[0].b : sf[0].a] : [],
   }
+}
+
+// Sample venues (until they come from the backend): the organizer's main venue and a second one.
+const VENUE_STREETS = ['Amir Temur ko‘chasi 108', 'Mustaqillik ko‘chasi 14', 'Bobur ko‘chasi 52', 'Navoiy ko‘chasi 31']
+
+/** Venues of a tournament: [{ name, address, role: 'main' | 'extra', tables }]. */
+export function locations(x) {
+  const org = ORGANIZERS[x.sport]
+  const n = x.id.length
+  const list = [{ name: org.name, address: VENUE_STREETS[n % 4], role: 'main', n: 4 + (n % 5) }]
+  if (x.format === 'team' || x.max > 16) list.push({ name: `${org.name} 2`, address: VENUE_STREETS[(n + 1) % 4], role: 'extra', n: 2 + (n % 3) })
+  return list
 }

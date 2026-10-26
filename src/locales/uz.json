@@ -27,7 +27,8 @@
     "city_placeholder": "Shahar yoki onlayn",
     "date_label": "Sana",
     "date_placeholder": "Sana",
-    "submit": "Qidirish"
+    "submit": "Qidirish",
+    "reset": "Tozalash"
   },
   "sports": {
     "all": "Barchasi",
@@ -174,7 +175,8 @@
       "players": "Ishtirokchilar · {{count}}",
       "bracket": "Setka",
       "results": "Natijalar",
-      "sponsors": "Homiylar"
+      "sponsors": "Homiylar",
+      "locations": "Lokatsiyalar"
     },
     "overview": {
       "title": "Format va qoidalar",
@@ -215,15 +217,16 @@
     },
     "aside": {
       "prizes": "Sovrinlar",
-      "cup": "kubok",
-      "organizer": "Tashkilotchi",
-      "hosted_one": "{{count}} ta turnir o‘tkazgan",
-      "hosted_other": "{{count}} ta turnir o‘tkazgan",
-      "own_title": "O‘z turniringiz bormi?",
-      "own_text": "Istalgan sportda 4 qadamda yarating, ishtirokchi va to‘lovni KiGo yig‘adi.",
-      "own_link": "Turnir yaratish →"
+      "cup": "kubok"
     },
-    "back": "{{sport}} turnirlari"
+    "back": "{{sport}} turnirlari",
+    "locations": {
+      "title": "O‘yinlar o‘tadigan joylar",
+      "main": "Asosiy maydon",
+      "extra": "Qo‘shimcha maydon",
+      "places": "{{count}} ta joy",
+      "map": "Xaritada ochish"
+    }
   },
   "auth": {
     "title": "Tizimga kiring",
@@ -248,7 +251,7 @@
       "other": "Boshqa"
     },
     "message": "Izoh",
-    "agree": "Ma’lumotlarim bog‘lanish maqsadida qayta ishlanishiga roziman",
+    "agree": "Men <offer>ommaviy oferta</offer> shartlari bilan tanishdim va ma’lumotlarim bog‘lanish maqsadida qayta ishlanishiga roziman",
     "submit": "Yuborish",
     "sending": "Yuborilmoqda…",
     "failed": "Yuborilmadi. Qayta urinib ko‘ring.",
@@ -259,5 +262,33 @@
     "done_title": "Rahmat!",
     "done_text": "So‘rovingiz qabul qilindi. Tez orada siz bilan bog‘lanamiz.",
     "done_close": "Yopish"
+  },
+  "offer": {
+    "title": "Ommaviy oferta",
+    "back": "Bosh sahifa",
+    "draft": "Namunaviy matn: haqiqiy hujjat tasdiqlangach almashtiriladi.",
+    "updated": "Oxirgi yangilanish: 2026-yil 1-noyabr",
+    "sections": [
+      {
+        "h": "1. Umumiy qoidalar",
+        "p": "Ushbu hujjat KiGo platformasi (keyingi o‘rinlarda «Platforma») va homiylik bo‘yicha murojaat qilgan shaxs (keyingi o‘rinlarda «Homiy») o‘rtasidagi hamkorlik shartlarini belgilaydi."
+      },
+      {
+        "h": "2. Homiylik shartlari",
+        "p": "Homiylik turi, miqdori va ko‘rinish joylari tomonlar o‘rtasida alohida kelishiladi va yozma tasdiqlanadi. Murojaat yuborilishi majburiyat yuklamaydi."
+      },
+      {
+        "h": "3. To‘lov tartibi",
+        "p": "To‘lov summasi va muddati tomonlar kelishuvida ko‘rsatiladi. To‘lov kelishuv imzolangandan keyingina amalga oshiriladi."
+      },
+      {
+        "h": "4. Ma’lumotlarni qayta ishlash",
+        "p": "Homiy yuborgan ma’lumotlar faqat aloqaga chiqish va hamkorlik shartlarini kelishish uchun ishlatiladi hamda uchinchi shaxslarga berilmaydi."
+      },
+      {
+        "h": "5. Javobgarlik va nizolar",
+        "p": "Nizolar muzokaralar yo‘li bilan, kelishuvga erishilmasa O‘zbekiston Respublikasi qonunchiligiga muvofiq hal etiladi."
+      }
+    ]
   }
 }

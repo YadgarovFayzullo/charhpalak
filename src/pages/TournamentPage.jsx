@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import { Arrow, Calendar, Check, Pin, Trophy, User, Users } from '../components/icons.jsx'
-import { ORGANIZERS, PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, registrationDeadline } from '../data.js'
+import { PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, locations, registrationDeadline } from '../data.js'
 import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
-const TABS = ['overview', 'players', 'bracket', 'results', 'sponsors']
+const TABS = ['overview', 'players', 'bracket', 'locations', 'results', 'sponsors']
 const SPLIT = [50, 30, 20] // share of the prize fund by place, %
 
 function Seat({ p, score, win, tbd }) {
@@ -50,10 +50,10 @@ export default function TournamentPage() {
   const full = upcoming && x.joined >= x.max
   const active = tab ?? (finished ? 'results' : 'overview')
   const list = entrants(x)
-  const org = ORGANIZERS[x.sport]
   const fee = entryFee(x)
   const count = finished ? x.players : x.joined
   const br = bracket(x)
+  const venues = locations(x)
 
   const share = async () => {
     const data = { title: name, url: window.location.href }
@@ -61,6 +61,12 @@ export default function TournamentPage() {
       if (navigator.share) await navigator.share(data)
       else { await navigator.clipboard.writeText(data.url); setCopied(true); setTimeout(() => setCopied(false), 2000) }
     } catch { /* cancelled */ }
+  }
+  // A fact tile leads to the part of the page that explains it: a tab, or a card in the sidebar.
+  const jump = (go) => {
+    const target = go.startsWith('#') ? go.slice(1) : 'tp-tabs'
+    if (!go.startsWith('#')) setTab(go)
+    requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
   }
   const onTabKey = (e) => {
     const i = TABS.indexOf(active)
@@ -72,11 +78,11 @@ export default function TournamentPage() {
   }
 
   const facts = [
-    { k: 'date', icon: <Calendar size={18} />, v: formatDates(x.start, x.end, lng) },
-    { k: 'place', icon: <Pin size={18} />, v: t(`cities.${x.city}`) },
-    { k: 'players', icon: team ? <Users size={18} /> : <User size={18} />, v: finished ? t(team ? 'finished.teams' : 'finished.players', { teams: x.teams, count: x.players }) : t(team ? 'tournaments.teams_joined' : 'tournaments.players_joined', { count: x.joined, max: x.max }) },
-    !finished && { k: 'fee', icon: <Check size={18} />, v: fee ? formatMoney(fee, lng) : t('tpage.facts.free') },
-    !finished && { k: 'prize', icon: <Trophy size={18} />, v: formatMoney(x.prize, lng) },
+    { k: 'date', go: 'bracket', icon: <Calendar size={18} />, v: formatDates(x.start, x.end, lng) },
+    { k: 'place', go: 'locations', icon: <Pin size={18} />, v: t(`cities.${x.city}`) },
+    { k: 'players', go: 'players', icon: team ? <Users size={18} /> : <User size={18} />, v: finished ? t(team ? 'finished.teams' : 'finished.players', { teams: x.teams, count: x.players }) : t(team ? 'tournaments.teams_joined' : 'tournaments.players_joined', { count: x.joined, max: x.max }) },
+    !finished && { k: 'fee', go: '#tp-fee', icon: <Check size={18} />, v: fee ? formatMoney(fee, lng) : t('tpage.facts.free') },
+    !finished && { k: 'prize', go: '#tp-prizes', icon: <Trophy size={18} />, v: formatMoney(x.prize, lng) },
   ].filter(Boolean)
 
   const cta = finished
@@ -101,11 +107,15 @@ export default function TournamentPage() {
               <span className="pill">{t(`format.${x.format}`)}</span>
             </div>
             <h1 className="tp-title">{name}</h1>
-            <dl className="tp-facts">
+            <div className="tp-facts">
               {facts.map((f) => (
-                <div key={f.k} className="tp-fact"><dt>{f.icon}{t(`tpage.facts.${f.k}`)}</dt><dd>{f.v}</dd></div>
+                <div key={f.k} className="tp-fact">
+                  <button type="button" onClick={() => jump(f.go)}>
+                    <span className="fk">{f.icon}{t(`tpage.facts.${f.k}`)}</span><span className="fv">{f.v}</span>
+                  </button>
+                </div>
               ))}
-            </dl>
+            </div>
             <div className="tp-actions">
               {cta}
               <button type="button" className="btn btn-ghost btn-big" onClick={share}>{copied ? t('tpage.copied') : t('tpage.share')}</button>
@@ -116,7 +126,7 @@ export default function TournamentPage() {
           </div>
         </section>
 
-        <div className="wrap tp-body">
+        <div className={finished ? 'wrap tp-body tp-body-solo' : 'wrap tp-body'}>
           <div className="tp-main">
             <div id="tp-tabs" className="tp-tabs" role="tablist" aria-label={t('tpage.tabs_label')} onKeyDown={onTabKey}>
               {TABS.map((k) => (
@@ -166,6 +176,25 @@ export default function TournamentPage() {
                 </>
               )}
 
+              {active === 'locations' && (
+                <>
+                  <h2>{t('tpage.locations.title')}</h2>
+                  <ul className="tp-venues">
+                    {venues.map((v) => (
+                      <li key={v.name} className="tp-venue">
+                        <span className="seat-i"><Pin size={18} /></span>
+                        <span className="tp-venue-t">
+                          <small>{t(`tpage.locations.${v.role}`)} · {t('tpage.locations.places', { count: v.n })}</small>
+                          <b>{v.name}</b>
+                          <span>{v.address}, {t(`cities.${x.city}`)}</span>
+                        </span>
+                        <a className="btn btn-soft" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.name}, ${v.address}, ${t(`cities.${x.city}`)}`)}`} target="_blank" rel="noopener noreferrer">{t('tpage.locations.map')} <Arrow size={16} /></a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
               {active === 'results' && (finished ? (
                 <>
                   <h2>{t('tpage.results.podium')}</h2>
@@ -191,9 +220,10 @@ export default function TournamentPage() {
             </div>
           </div>
 
+          {!finished && (
           <aside className="tp-aside">
-            {!finished && (
-              <div className="tp-card">
+            {(
+              <div id="tp-prizes" className="tp-card">
                 <h2>{t('tpage.aside.prizes')}</h2>
                 <ul className="tp-prizes">
                   {SPLIT.map((s, i) => (
@@ -203,19 +233,16 @@ export default function TournamentPage() {
                 </ul>
               </div>
             )}
-            <div className="tp-card">
-              <h2>{t('tpage.aside.organizer')}</h2>
-              <div className="tp-org">
-                <span className="seat-i" style={{ background: '#FFD58A' }}>{org.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>
-                <span><b>{org.name}</b><small>{t('tpage.aside.hosted', { count: org.hosted })}</small></span>
+            {(
+              <div id="tp-fee" className="tp-card tp-own">
+                <h2>{t('tpage.facts.fee')}</h2>
+                <b className="tp-fee">{fee ? formatMoney(fee, lng) : t('tpage.facts.free')}</b>
+                <p>{upcoming ? t('tpage.deadline', { date: formatDates(registrationDeadline(x), registrationDeadline(x), lng) }) : t('tpage.live_note')}</p>
+                {cta}
               </div>
-            </div>
-            <div className="tp-card tp-own">
-              <h2>{t('tpage.aside.own_title')}</h2>
-              <p>{t('tpage.aside.own_text')}</p>
-              <button type="button" className="btn btn-lime">{t('tpage.aside.own_link')}</button>
-            </div>
+            )}
           </aside>
+          )}
         </div>
       </main>
       <Footer />

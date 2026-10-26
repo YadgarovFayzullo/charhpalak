@@ -3,12 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { Calendar, Pin, Search } from './icons.jsx'
 import BannerSlider from './BannerSlider.jsx'
 import Select from './Select.jsx'
-import { CITIES, SPORTS } from '../data.js'
+import { CITIES, NO_FILTERS, SPORTS } from '../data.js'
 
 export default function Hero({ filters, onSearch }) {
   const { t } = useTranslation()
   const [form, setForm] = useState(filters)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
+
+  const dirty = Object.keys(NO_FILTERS).some((k) => form[k] !== NO_FILTERS[k] || filters[k] !== NO_FILTERS[k])
+  const reset = () => { setForm(NO_FILTERS); onSearch(NO_FILTERS) }
 
   const submit = (e) => {
     e.preventDefault()
@@ -45,6 +48,7 @@ export default function Hero({ filters, onSearch }) {
             <input type="date" value={form.date} onChange={set('date')} aria-label={t('hero.date_label')} />
             {!form.date && <span className="ph">{t('hero.date_placeholder')}</span>}
           </label>
+          {dirty && <button type="button" className="btn btn-reset" onClick={reset}>{t('hero.reset')}</button>}
           <button type="submit" className="btn btn-lime btn-search"><Search />{t('hero.submit')}</button>
         </form>
       </div>

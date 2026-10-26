@@ -66,7 +66,7 @@ button, input, select { font: inherit; color: inherit; }
 
 /* Hero = banner slider + search bar overlapping its bottom edge */
 .hero { position: relative; background: var(--white); }
-.banners { position: relative; overflow: hidden; height: clamp(440px, 58vh, 540px); color: var(--white); background: var(--green-900); }
+.banners { position: relative; overflow: hidden; height: max(400px, calc(100vh - var(--header-h) - 176px)); height: max(400px, calc(100svh - var(--header-h) - 176px)); /* first screen = banner + search bar + sponsor strip; the chips start below it */ color: var(--white); background: var(--green-900); }
 .banner-track { position: relative; height: 100%; transition: transform .8s cubic-bezier(.65, 0, .35, 1); touch-action: pan-y; }
 .banner { position: absolute; top: 0; width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; }
 .banner-brand { background: linear-gradient(110deg, var(--green-900) 0%, var(--green-800) 55%, var(--green-700) 100%); }
@@ -228,7 +228,8 @@ button, input, select { font: inherit; color: inherit; }
 .empty { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; padding: 24px; border: 1px dashed var(--line); border-radius: 14px; color: var(--ink-mu); }
 
 /* Partners */
-.marquee { position: relative; overflow: hidden; margin-bottom: 24px; padding: 18px 0; border-block: 1px solid var(--line);
+.strip-wrap { margin-top: 32px; }
+.marquee { position: relative; overflow: hidden; padding: 18px 0; border-block: 1px solid var(--line);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .marquee-track { display: flex; width: max-content; animation: marquee 60s linear infinite; }
 .marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
@@ -269,7 +270,7 @@ button, input, select { font: inherit; color: inherit; }
   .banner-bg::after { background: linear-gradient(90deg, rgba(10, 26, 16, .9) 0%, rgba(10, 26, 16, .6) 100%); }
   .search { flex-wrap: wrap; }
   .field, .field-q { flex: 1 1 220px; }
-  .btn-search { flex: 1 1 100%; }
+  .btn-search, .btn-reset { flex: 1 1 100%; }
 }
 @media (max-width: 600px) {
   .header-in { gap: 12px; }
@@ -319,9 +320,9 @@ button, input, select { font: inherit; color: inherit; }
 .tp-title { font-size: clamp(32px, 5vw, 56px); font-weight: 800; letter-spacing: -.035em; line-height: 1.05; }
 .tp-facts { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; width: 100%; }
 .tp-fact { flex: 1 1 180px; padding: 14px 16px; border-radius: 14px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); }
-.tp-fact dt { display: flex; align-items: center; gap: 6px; font-size: 13px; color: rgba(255, 255, 255, .7); }
-.tp-fact dt svg { color: var(--lime); }
-.tp-fact dd { margin: 4px 0 0; font-size: 17px; font-weight: 700; }
+.tp-fact .fk { display: flex; align-items: center; gap: 6px; font-size: 13px; color: rgba(255, 255, 255, .7); }
+.tp-fact .fk svg { color: var(--lime); }
+.tp-fact .fv { display: block; margin: 4px 0 0; font-size: 17px; font-weight: 700; }
 .tp-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .tp-note { color: rgba(255, 255, 255, .75); font-size: 14px; }
 
@@ -400,3 +401,31 @@ button, input, select { font: inherit; color: inherit; }
 .btn:disabled { opacity: .6; cursor: progress; }
 button.tp-sponsor-add { font: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--line); }
 button.more { background: none; border: 0; padding: 0; cursor: pointer; color: inherit; }
+.btn-reset { min-height: 52px; background: transparent; color: var(--ink-mu); font-weight: 600; }
+.btn-reset:hover { color: var(--ink); background: var(--bg-soft); }
+.ff-check a { color: var(--ink); font-weight: 600; text-decoration: underline; }
+
+/* ---- Offer page ---- */
+.offer { max-width: 760px; }
+.offer section { margin-top: 24px; }
+.offer h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.offer p { color: var(--ink-mu); }
+.offer .offer-draft { padding: 10px 14px; border-radius: 10px; background: var(--lime-soft); color: var(--ink); font-size: 14px; }
+.offer .offer-date { margin-top: 32px; font-size: 14px; }
+.tp-fee { font-size: 32px; font-weight: 800; letter-spacing: -.02em; color: var(--lime); }
+.tp-own .btn { width: 100%; }
+
+.tp-fact { padding: 0; }
+.tp-fact button { display: block; width: 100%; height: 100%; padding: 14px 16px; border: 0; border-radius: 14px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.tp-fact button:hover { background: rgba(255, 255, 255, .08); }
+.tp-fact button:focus-visible { outline: 3px solid var(--lime); outline-offset: 2px; }
+#tp-tabs { scroll-margin-top: var(--header-h); }
+#tp-prizes, #tp-fee { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+.tp-venues { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.tp-venue { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; }
+.tp-venue-t { display: grid; flex: 1; min-width: 0; }
+.tp-venue-t small, .tp-venue-t > span { color: var(--ink-mu); font-size: 14px; }
+.tp-venue-t b { font-size: 17px; }
+@media (max-width: 560px) { .tp-venue { flex-wrap: wrap; } .tp-venue .btn { flex: 1 1 100%; } }
+.tp-body-solo { grid-template-columns: minmax(0, 1fr); }
