@@ -211,8 +211,13 @@
       "podium": "Turnir yakunlari",
       "place": "{{n}}-o‘rin",
       "prize": "Mukofot",
-      "matches": "O‘yinlar (G‘–M)",
-      "games": "Partiyalar"
+      "record": "G‘alaba–mag‘lubiyat",
+      "units": {
+        "goals": "To‘plar (urgan–o‘tkazgan)",
+        "points": "Ochkolar (olgan–berilgan)",
+        "sets": "Setlar (yutgan–yutqazgan)",
+        "games": "Partiyalar (yutgan–yutqazgan)"
+      }
     },
     "sponsors": {
       "logo": "[Homiy logosi]",

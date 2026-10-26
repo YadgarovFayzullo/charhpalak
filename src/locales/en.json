@@ -211,8 +211,13 @@
       "podium": "Final standings",
       "place": "Place {{n}}",
       "prize": "Prize",
-      "matches": "Matches (W–L)",
-      "games": "Games"
+      "record": "Wins–losses",
+      "units": {
+        "goals": "Goals (for–against)",
+        "points": "Points (for–against)",
+        "sets": "Sets (won–lost)",
+        "games": "Games (won–lost)"
+      }
     },
     "sponsors": {
       "logo": "[Sponsor logo]",

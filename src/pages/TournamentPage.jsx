@@ -9,7 +9,9 @@ import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
 const TABS = ['overview', 'players', 'bracket', 'locations', 'results', 'sponsors']
-const SPLIT = [50, 30, 20] // share of the prize fund by place, %
+const SPLIT = [50, 30, 20]
+// What the bracket score counts in each sport; races have no head-to-head score.
+const SCORE_UNIT = { futbol: 'goals', boshqa: 'points', tennis: 'sets', shaxmat: 'games', bilyard: 'games' } // share of the prize fund by place, %
 
 function Seat({ p, score, win, tbd }) {
   return (
@@ -218,9 +220,9 @@ export default function TournamentPage() {
                           <span className="pod-name"><small>{t('tpage.results.place', { n: r.place })}</small><b>{r.p.name}</b></span>
                           <span className="pod-prize"><small>{t('tpage.results.prize')}</small><b>{formatMoney(r.prize, lng)}</b></span>
                         </div>
-                        <dl className="pod-stats">
-                          <div><dt>{t('tpage.results.matches')}</dt><dd>{r.w}–{r.l}</dd></div>
-                          <div><dt>{t('tpage.results.games')}</dt><dd>{r.gf}–{r.ga}</dd></div>
+                        <dl className="pod-stats" style={{ gridTemplateColumns: `repeat(${SCORE_UNIT[x.sport] ? 3 : 1}, 1fr)` }}>
+                          {SCORE_UNIT[x.sport] && <div><dt>{t('tpage.results.record')}</dt><dd>{r.w}–{r.l}</dd></div>}
+                          {SCORE_UNIT[x.sport] && <div><dt>{t(`tpage.results.units.${SCORE_UNIT[x.sport]}`)}</dt><dd>{r.gf}–{r.ga}</dd></div>}
                           <div><dt>{t('tpage.players.rating')}</dt><dd>{r.p.r}</dd></div>
                         </dl>
                       </li>

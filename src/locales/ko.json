@@ -210,8 +210,13 @@
       "podium": "최종 순위",
       "place": "{{n}}위",
       "prize": "상금",
-      "matches": "경기 (승–패)",
-      "games": "세트"
+      "record": "승–패",
+      "units": {
+        "goals": "골 (득점–실점)",
+        "points": "점수 (득점–실점)",
+        "sets": "세트 (승–패)",
+        "games": "게임 (승–패)"
+      }
     },
     "sponsors": {
       "logo": "[후원사 로고]",
