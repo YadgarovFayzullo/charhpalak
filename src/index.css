@@ -381,3 +381,22 @@ button, input, select { font: inherit; color: inherit; }
 @media (max-width: 560px) {
   .tp-actions .btn { width: 100%; }
 }
+
+/* ---- Sponsor form ---- */
+.modal-form { width: min(480px, 100%); text-align: left; max-height: calc(100vh - 32px); overflow-y: auto; }
+.modal-form h2, .modal-form > p { text-align: left; }
+.sp-form { display: grid; gap: 12px; }
+.ff { display: grid; gap: 6px; }
+.ff > span { font-size: 14px; font-weight: 600; }
+.ff > span i { color: #C0392B; font-style: normal; }
+.ff input, .ff select, .ff textarea { width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-soft); font-size: 16px; }
+.ff textarea { resize: vertical; }
+.ff input:focus, .ff select:focus, .ff textarea:focus { outline: 2px solid #9BD32A; border-color: transparent; }
+.ff input[aria-invalid="true"] { border-color: #C0392B; }
+.ff em, .ff-err { color: #B03024; font-size: 13px; font-style: normal; }
+.ff-check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--ink-mu); }
+.ff-check input { width: 20px; height: 20px; margin-top: 2px; accent-color: #7FB52A; flex: none; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.btn:disabled { opacity: .6; cursor: progress; }
+button.tp-sponsor-add { font: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--line); }
+button.more { background: none; border: 0; padding: 0; cursor: pointer; color: inherit; }

@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "Charhpalak · Sports tournaments",
+    "title": "KiGo · Sports tournaments",
     "description": "Find a tournament, follow the matches and see the full history of results. Football, tennis, chess, billiards and more."
   },
   "header": {
-    "home": "Charhpalak — home",
+    "home": "KiGo — home",
     "nav": {
       "tournaments": "Tournaments",
       "organizers": "Organizers",
@@ -220,7 +220,7 @@
       "hosted_one": "Has hosted {{count}} tournament",
       "hosted_other": "Has hosted {{count}} tournaments",
       "own_title": "Have a tournament of your own?",
-      "own_text": "Create one in 4 steps in any sport; Charhpalak collects participants and payments.",
+      "own_text": "Create one in 4 steps in any sport; KiGo collects participants and payments.",
       "own_link": "Create a tournament →"
     },
     "back": "{{sport}} tournaments"
@@ -231,5 +231,33 @@
     "login": "Log in with Telegram",
     "later": "Not now",
     "close": "Close"
+  },
+  "sponsor": {
+    "title": "Become a sponsor",
+    "text": "Leave your details and our team will get in touch.",
+    "name": "Your name",
+    "company": "Company",
+    "phone": "Phone",
+    "email": "Email",
+    "kind": "Interested in",
+    "kinds": {
+      "title": "Title sponsor",
+      "tournament": "Tournament sponsor",
+      "prizes": "Prizes",
+      "ads": "Advertising",
+      "other": "Other"
+    },
+    "message": "Message",
+    "agree": "I agree to my data being processed so you can contact me",
+    "submit": "Send",
+    "sending": "Sending…",
+    "failed": "Could not send. Please try again.",
+    "err_name": "Enter your name",
+    "err_phone": "Enter the full phone number",
+    "err_email": "Email looks wrong",
+    "err_agree": "Consent is required",
+    "done_title": "Thank you!",
+    "done_text": "Your request has been received. We will contact you soon.",
+    "done_close": "Close"
   }
 }

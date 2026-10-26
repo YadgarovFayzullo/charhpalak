@@ -2,7 +2,6 @@
 // Tournaments are a sample until the landing reads them from the backend.
 
 // The mini app lives in the Telegram bot: every call to action opens it.
-export const BOT_URL = 'https://t.me/charhpalak_bot'
 
 export const SPORTS = ['all', 'futbol', 'tennis', 'shaxmat', 'yugurish', 'suzish', 'bilyard', 'boshqa']
 

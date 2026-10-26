@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import { Arrow, Calendar, Check, Pin, Trophy, User, Users } from '../components/icons.jsx'
-import { BOT_URL, ORGANIZERS, PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, registrationDeadline } from '../data.js'
+import { ORGANIZERS, PARTNER_LOGOS, TOURNAMENTS, bracket, entrants, entryFee, formatDates, formatMoney, registrationDeadline } from '../data.js'
+import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
 const TABS = ['overview', 'players', 'bracket', 'results', 'sponsors']
@@ -38,6 +39,7 @@ export default function TournamentPage() {
   const x = TOURNAMENTS.find((c) => c.id === slug)
   const [tab, setTab] = useState(null)
   const [copied, setCopied] = useState(false)
+  const { openSponsor } = useSponsor()
   if (!x) return <Navigate to="/tournaments" replace />
 
   const name = t(`tournaments.names.${x.id}`)
@@ -82,7 +84,7 @@ export default function TournamentPage() {
     : upcoming
       ? (full
         ? <span className="btn btn-big btn-off" aria-disabled="true">{t('tpage.closed')}</span>
-        : <a href={BOT_URL} className="btn btn-lime btn-big">{fee ? t('tpage.register', { fee: formatMoney(fee, lng) }) : t('tpage.register_free')} <Arrow size={18} /></a>)
+        : <button type="button" className="btn btn-lime btn-big">{fee ? t('tpage.register', { fee: formatMoney(fee, lng) }) : t('tpage.register_free')} <Arrow size={18} /></button>)
       : <a href="#tp-tabs" className="btn btn-lime btn-big" onClick={() => setTab('bracket')}>{t('tpage.follow')} <Arrow size={18} /></a>
 
   return (
@@ -183,7 +185,7 @@ export default function TournamentPage() {
               {active === 'sponsors' && (
                 <div className="tp-sponsors">
                   {PARTNER_LOGOS.slice(0, 5).map((l) => <div key={l.name} className="tp-sponsor">{t('tpage.sponsors.logo')}</div>)}
-                  <a href={BOT_URL} className="tp-sponsor tp-sponsor-add">{t('tpage.sponsors.become')}</a>
+                  <button type="button" className="tp-sponsor tp-sponsor-add" onClick={openSponsor}>{t('tpage.sponsors.become')}</button>
                 </div>
               )}
             </div>
@@ -211,7 +213,7 @@ export default function TournamentPage() {
             <div className="tp-card tp-own">
               <h2>{t('tpage.aside.own_title')}</h2>
               <p>{t('tpage.aside.own_text')}</p>
-              <a href={BOT_URL} className="btn btn-lime">{t('tpage.aside.own_link')}</a>
+              <button type="button" className="btn btn-lime">{t('tpage.aside.own_link')}</button>
             </div>
           </aside>
         </div>

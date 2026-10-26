@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Arrow, Calendar, ChevronLeft, ChevronRight, Pause, Pin, Play, Plus } from './icons.jsx'
-import { BANNERS, BANNER_INTERVAL, BOT_URL, TOURNAMENTS, formatDates } from '../data.js'
+import { BANNERS, BANNER_INTERVAL, TOURNAMENTS, formatDates } from '../data.js'
+import { useSponsor } from '../sponsor.jsx'
 import { photo } from '../photos.js'
 
 // Diagonal photo strips on the brand slide; each opens the matching tournament card below.
@@ -166,7 +167,7 @@ function BrandSlide({ t }) {
         <p className="banner-text">{t('hero.lead')}</p>
         <div className="banner-actions">
           <a href="#tournaments" className="btn btn-lime">{t('header.nav.tournaments')} <Arrow size={16} /></a>
-          <a href={BOT_URL} className="btn btn-ghost"><Plus size={18} />{t('header.create')}</a>
+          <button type="button" className="btn btn-ghost"><Plus size={18} />{t('header.create')}</button>
         </div>
       </div>
     </>
@@ -194,6 +195,7 @@ function TournamentSlide({ t, lng, banner }) {
 }
 
 function AdSlide({ t, banner }) {
+  const { openSponsor } = useSponsor()
   return (
     <>
       <div className="banner-bg"><img {...photo(banner.img, 1400)} alt="" /></div>
@@ -202,7 +204,7 @@ function AdSlide({ t, banner }) {
         <h2 className="banner-title">{t('banners.ad_title')}</h2>
         <p className="banner-text">{t('banners.ad_text')}</p>
         <div className="banner-actions">
-          <a href={BOT_URL} className="btn btn-lime">{t('cta.sponsor')} <Arrow size={16} /></a>
+          <button type="button" className="btn btn-lime" onClick={openSponsor}>{t('cta.sponsor')} <Arrow size={16} /></button>
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BOT_URL } from './data.js'
+import Dialog from './components/Dialog.jsx'
 
 const KEY = 'charhpalak.user'
 const AuthContext = createContext(null)
@@ -33,32 +33,13 @@ export function AuthProvider({ children }) {
 
 function LoginModal({ onClose }) {
   const { t } = useTranslation()
-  const box = useRef(null)
-  useEffect(() => {
-    const back = document.activeElement
-    box.current?.querySelector('a')?.focus()
-    document.body.style.overflow = 'hidden'
-    const onKey = (e) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'Tab') { // keep focus inside the dialog
-        const f = [...box.current.querySelectorAll('a,button')]
-        const first = f[0], last = f[f.length - 1]
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
-      }
-    }
-    document.addEventListener('keydown', onKey)
-    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; back?.focus?.() }
-  }, [onClose])
   return (
-    <div className="modal-back" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose() }}>
-      <div ref={box} className="modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
-        <button type="button" className="modal-x" aria-label={t('auth.close')} onClick={onClose}>×</button>
-        <h2 id="login-title">{t('auth.title')}</h2>
-        <p>{t('auth.text')}</p>
-        <a href={BOT_URL} className="btn btn-lime btn-big">{t('auth.login')}</a>
-        <button type="button" className="btn btn-line" onClick={onClose}>{t('auth.later')}</button>
-      </div>
-    </div>
+    <Dialog labelledBy="login-title" onClose={onClose}>
+      <button type="button" className="modal-x" aria-label={t('auth.close')} onClick={onClose}>×</button>
+      <h2 id="login-title">{t('auth.title')}</h2>
+      <p>{t('auth.text')}</p>
+      <button type="button" className="btn btn-lime btn-big">{t('auth.login')}</button>
+      <button type="button" className="btn btn-line" onClick={onClose}>{t('auth.later')}</button>
+    </Dialog>
   )
 }

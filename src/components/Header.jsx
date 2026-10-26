@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Globe, Logo, Plus } from './icons.jsx'
 import Select from './Select.jsx'
-import { BOT_URL } from '../data.js'
 import { LANGUAGES } from '../i18n.js'
 
 const NAV = [
@@ -19,7 +18,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="wrap header-in">
-        {section('#top', { className: 'logo', 'aria-label': t('header.home') }, <><Logo /><span>Charh<b>palak</b></span></>)}
+        {section('#top', { className: 'logo', 'aria-label': t('header.home') }, <><Logo /><span>Ki<b>Go</b></span></>)}
         <nav className="nav" aria-label={t('header.nav_label')}>
           {NAV.map((n) => <span key={n.key} className="nav-item">{section(n.href, {}, t(`header.nav.${n.key}`))}</span>)}
         </nav>
@@ -33,8 +32,8 @@ export default function Header() {
             onChange={(code) => i18n.changeLanguage(code)}
             options={LANGUAGES.map((l) => ({ value: l.code, label: l.name, short: l.label, lang: l.code }))}
           />
-          <a href={BOT_URL} className="btn btn-line">{t('header.login')}</a>
-          <a href={BOT_URL} className="btn btn-lime" aria-label={t('header.create')}><Plus size={18} /><span className="btn-label">{t('header.create')}</span></a>
+          <button type="button" className="btn btn-line">{t('header.login')}</button>
+          <button type="button" className="btn btn-lime" aria-label={t('header.create')}><Plus size={18} /><span className="btn-label">{t('header.create')}</span></button>
         </div>
       </div>
     </header>

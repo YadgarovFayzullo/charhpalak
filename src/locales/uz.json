@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "Charhpalak · Bosh sahifa",
+    "title": "KiGo · Bosh sahifa",
     "description": "Turnir toping, bellashuvlarni kuzating va natijalar tarixini ko‘ring. Futbol, tennis, shaxmat, bilyard va boshqa sport turlari."
   },
   "header": {
-    "home": "Charhpalak — bosh sahifa",
+    "home": "KiGo — bosh sahifa",
     "nav": {
       "tournaments": "Turnirlar",
       "organizers": "Tashkilotchilar",
@@ -220,7 +220,7 @@
       "hosted_one": "{{count}} ta turnir o‘tkazgan",
       "hosted_other": "{{count}} ta turnir o‘tkazgan",
       "own_title": "O‘z turniringiz bormi?",
-      "own_text": "Istalgan sportda 4 qadamda yarating, ishtirokchi va to‘lovni Charhpalak yig‘adi.",
+      "own_text": "Istalgan sportda 4 qadamda yarating, ishtirokchi va to‘lovni KiGo yig‘adi.",
       "own_link": "Turnir yaratish →"
     },
     "back": "{{sport}} turnirlari"
@@ -231,5 +231,33 @@
     "login": "Telegram orqali kirish",
     "later": "Keyinroq",
     "close": "Yopish"
+  },
+  "sponsor": {
+    "title": "Homiy bo‘lish",
+    "text": "Ma’lumotlaringizni qoldiring, jamoamiz siz bilan bog‘lanadi.",
+    "name": "Ismingiz",
+    "company": "Kompaniya",
+    "phone": "Telefon",
+    "email": "Email",
+    "kind": "Qiziqish",
+    "kinds": {
+      "title": "Bosh homiy",
+      "tournament": "Turnir homiysi",
+      "prizes": "Sovrinlar",
+      "ads": "Reklama",
+      "other": "Boshqa"
+    },
+    "message": "Izoh",
+    "agree": "Ma’lumotlarim bog‘lanish maqsadida qayta ishlanishiga roziman",
+    "submit": "Yuborish",
+    "sending": "Yuborilmoqda…",
+    "failed": "Yuborilmadi. Qayta urinib ko‘ring.",
+    "err_name": "Ismingizni kiriting",
+    "err_phone": "Telefon raqamini to‘liq kiriting",
+    "err_email": "Email noto‘g‘ri",
+    "err_agree": "Rozilik kerak",
+    "done_title": "Rahmat!",
+    "done_text": "So‘rovingiz qabul qilindi. Tez orada siz bilan bog‘lanamiz.",
+    "done_close": "Yopish"
   }
 }

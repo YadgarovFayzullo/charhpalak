@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Arrow, Crown, Gift, Team } from './icons.jsx'
-import { BOT_URL, PARTNERS, PARTNER_LOGOS } from '../data.js'
+import { PARTNERS, PARTNER_LOGOS } from '../data.js'
 
 const ICONS = { crown: Crown, gift: Gift, team: Team }
 
@@ -45,7 +45,7 @@ export default function Partners() {
     <section className="wrap section" id="partners">
       <div className="sec-head">
         <h2>{t('partners.title')}</h2>
-        <a href={BOT_URL} className="more">{t('partners.all')} <Arrow size={16} /></a>
+        <button type="button" className="more">{t('partners.all')} <Arrow size={16} /></button>
       </div>
       <Marquee label={t('partners.strip')} />
       <div className="partners">
