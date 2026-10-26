@@ -36,7 +36,6 @@ export default function Hero() {
 
       <div className="wrap hero-grid">
         <div className="hero-copy">
-          <span className="pill hero-pill">● Toshkentda [N] ta klub va maydon</span>
           <h1 className="d hero-title">
             Sport birlashtiradi. <span className="accent">Harakat sizdan boshlanadi.</span>
           </h1>
