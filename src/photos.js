@@ -9,6 +9,7 @@ const IDS = {
   billiards: 'photo-1544281153-6603be88b354', // person playing billiards
   basketball: 'photo-1786025164219-63c50872c96d', // shot at the hoop, indoor gym
   swim: 'photo-1530549387789-4c1017266635',
+  football: 'photo-1767916732786-a83902ffc25c', // soccer game in a packed stadium at night
 }
 
 const url = (id, w) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`

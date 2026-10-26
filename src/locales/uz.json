@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "title": "Charhpalak · Bosh sahifa",
+    "description": "Turnir toping, bellashuvlarni kuzating va natijalar tarixini ko‘ring. Futbol, tennis, shaxmat, bilyard va boshqa sport turlari."
+  },
+  "header": {
+    "home": "Charhpalak — bosh sahifa",
+    "nav": {
+      "tournaments": "Turnirlar",
+      "organizers": "Tashkilotchilar",
+      "partners": "Hamkorlik"
+    },
+    "nav_label": "Asosiy bo‘limlar",
+    "language": "Til",
+    "login": "Kirish",
+    "create": "Turnir yaratish"
+  },
+  "hero": {
+    "title_1": "Sizning sportingiz.",
+    "title_2": "Sizning turniringiz.",
+    "lead": "Turnir toping, bellashuvlarni kuzating va natijalar tarixini ko‘ring.",
+    "search_label": "Turnir qidirish",
+    "search_placeholder": "Turnir qidirish",
+    "all_sports": "Barcha sport turlari",
+    "sport_label": "Sport turi",
+    "city_label": "Shahar",
+    "city_placeholder": "Shahar yoki onlayn",
+    "date_label": "Sana",
+    "date_placeholder": "Sana",
+    "submit": "Qidirish",
+    "perks": {
+      "more": "Ko‘proq turnirlar",
+      "community": "Faol sport hamjamiyati",
+      "results": "Shaffof natijalar",
+      "platform": "Barchasi bir platformada"
+    }
+  },
+  "sports": {
+    "all": "Barchasi",
+    "futbol": "Futbol",
+    "tennis": "Tennis",
+    "shaxmat": "Shaxmat",
+    "yugurish": "Yugurish",
+    "suzish": "Suzish",
+    "bilyard": "Bilyard",
+    "boshqa": "Boshqa sportlar"
+  },
+  "cities": {
+    "tashkent": "Toshkent",
+    "samarkand": "Samarqand",
+    "bukhara": "Buxoro",
+    "namangan": "Namangan",
+    "online": "Onlayn"
+  },
+  "status": {
+    "upcoming": "Kutilayotgan",
+    "live": "Davom etayotgan",
+    "finished": "Yakunlangan"
+  },
+  "format": {
+    "doubles": "Juftlik",
+    "singles": "Individual",
+    "team": "Jamoa"
+  },
+  "tournaments": {
+    "title": "O‘zingizga mos turnirni toping",
+    "status_label": "Turnir holati",
+    "sport_label": "Sport turi",
+    "save": "Saqlash",
+    "sponsor": "Homiy",
+    "details": "Batafsil",
+    "empty": "Bu filtr bo‘yicha turnir topilmadi.",
+    "clear": "Filtrlarni tozalash",
+    "names": {
+      "tennis-open": "Tennis Open",
+      "shaxmat-kubogi": "Shaxmat kubogi",
+      "shahar-yugurishi": "Shahar yugurishi",
+      "suzish-kubogi": "Suzish kubogi",
+      "bilyard-turniri": "Bilyard turniri",
+      "basketbol-kubogi": "Basketbol kubogi",
+      "futbol-kubogi": "Futbol kubogi"
+    }
+  },
+  "finished": {
+    "title": "Turnir tugadi. Tarix qoladi.",
+    "all": "Barcha yakunlangan turnirlar",
+    "winner": "G‘olib:",
+    "results": "Natijalarni ko‘rish",
+    "players": "{{count}} ishtirokchi",
+    "teams": "{{teams}} jamoa · {{count}} ishtirokchi"
+  },
+  "partners": {
+    "title": "Homiylar va hamkorlar",
+    "all": "Barcha hamkorlar",
+    "main": {
+      "title": "Bosh homiy",
+      "text": "Turnirlarimizning asosiy qo‘llab-quvvatlovchisi"
+    },
+    "prize": {
+      "title": "Sovrin hamkori",
+      "text": "G‘oliblar va ishtirokchilar uchun sovrinlar"
+    },
+    "host": {
+      "title": "Mezbon klub",
+      "text": "Turnirlarni o‘tkazishda hamkorlik"
+    }
+  },
+  "cta": {
+    "title": "Sportni birga rivojlantiramiz",
+    "text": "Yangi turnirlar, kengroq imkoniyatlar va yanada faol sport hamjamiyati uchun.",
+    "create": "Turnir yaratish",
+    "sponsor": "Homiy bo‘lish"
+  },
+  "footer": {
+    "tagline": "Sport odamlarni yaqinlashtiradi."
+  }
+}

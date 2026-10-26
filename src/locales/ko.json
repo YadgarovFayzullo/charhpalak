@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "title": "Charhpalak · 스포츠 대회",
+    "description": "대회를 찾고, 경기를 지켜보고, 결과 기록을 확인하세요. 축구, 테니스, 체스, 당구 등 다양한 종목."
+  },
+  "header": {
+    "home": "Charhpalak — 홈",
+    "nav": {
+      "tournaments": "대회",
+      "organizers": "주최자",
+      "partners": "파트너십"
+    },
+    "nav_label": "주요 메뉴",
+    "language": "언어",
+    "login": "로그인",
+    "create": "대회 만들기"
+  },
+  "hero": {
+    "title_1": "나의 스포츠.",
+    "title_2": "나의 대회.",
+    "lead": "대회를 찾고, 경기를 지켜보고, 결과 기록을 확인하세요.",
+    "search_label": "대회 검색",
+    "search_placeholder": "대회 검색",
+    "all_sports": "모든 종목",
+    "sport_label": "종목",
+    "city_label": "도시",
+    "city_placeholder": "도시 또는 온라인",
+    "date_label": "날짜",
+    "date_placeholder": "날짜",
+    "submit": "검색",
+    "perks": {
+      "more": "더 많은 대회",
+      "community": "활발한 스포츠 커뮤니티",
+      "results": "투명한 결과",
+      "platform": "모든 것을 한곳에서"
+    }
+  },
+  "sports": {
+    "all": "전체",
+    "futbol": "축구",
+    "tennis": "테니스",
+    "shaxmat": "체스",
+    "yugurish": "달리기",
+    "suzish": "수영",
+    "bilyard": "당구",
+    "boshqa": "기타 종목"
+  },
+  "cities": {
+    "tashkent": "타슈켄트",
+    "samarkand": "사마르칸트",
+    "bukhara": "부하라",
+    "namangan": "나망간",
+    "online": "온라인"
+  },
+  "status": {
+    "upcoming": "예정",
+    "live": "진행 중",
+    "finished": "종료"
+  },
+  "format": {
+    "doubles": "복식",
+    "singles": "개인전",
+    "team": "단체전"
+  },
+  "tournaments": {
+    "title": "나에게 맞는 대회를 찾아보세요",
+    "status_label": "대회 상태",
+    "sport_label": "종목",
+    "save": "저장",
+    "sponsor": "후원사",
+    "details": "자세히",
+    "empty": "조건에 맞는 대회가 없습니다.",
+    "clear": "필터 초기화",
+    "names": {
+      "tennis-open": "테니스 오픈",
+      "shaxmat-kubogi": "체스 컵",
+      "shahar-yugurishi": "시티 런",
+      "suzish-kubogi": "수영 컵",
+      "bilyard-turniri": "당구 대회",
+      "basketbol-kubogi": "농구 컵",
+      "futbol-kubogi": "축구 컵"
+    }
+  },
+  "finished": {
+    "title": "대회는 끝나도, 기록은 남습니다.",
+    "all": "종료된 대회 전체 보기",
+    "winner": "우승:",
+    "results": "결과 보기",
+    "players": "참가자 {{count}}명",
+    "teams": "{{teams}}개 팀 · 참가자 {{count}}명"
+  },
+  "partners": {
+    "title": "후원사 및 파트너",
+    "all": "파트너 전체 보기",
+    "main": {
+      "title": "메인 후원사",
+      "text": "대회를 든든하게 지원하는 주요 후원사"
+    },
+    "prize": {
+      "title": "상품 파트너",
+      "text": "우승자와 참가자를 위한 상품 제공"
+    },
+    "host": {
+      "title": "개최 클럽",
+      "text": "대회 개최를 함께하는 파트너"
+    }
+  },
+  "cta": {
+    "title": "함께 스포츠를 키워갑니다",
+    "text": "새로운 대회, 더 넓은 기회, 더 활발한 스포츠 커뮤니티를 위해.",
+    "create": "대회 만들기",
+    "sponsor": "후원사 되기"
+  },
+  "footer": {
+    "tagline": "스포츠는 사람을 가깝게 합니다."
+  }
+}

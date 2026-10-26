@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "title": "Charhpalak · Sports tournaments",
+    "description": "Find a tournament, follow the matches and see the full history of results. Football, tennis, chess, billiards and more."
+  },
+  "header": {
+    "home": "Charhpalak — home",
+    "nav": {
+      "tournaments": "Tournaments",
+      "organizers": "Organizers",
+      "partners": "Partnership"
+    },
+    "nav_label": "Main sections",
+    "language": "Language",
+    "login": "Log in",
+    "create": "Create a tournament"
+  },
+  "hero": {
+    "title_1": "Your sport.",
+    "title_2": "Your tournament.",
+    "lead": "Find a tournament, follow the matches and see the history of results.",
+    "search_label": "Search tournaments",
+    "search_placeholder": "Search tournaments",
+    "all_sports": "All sports",
+    "sport_label": "Sport",
+    "city_label": "City",
+    "city_placeholder": "City or online",
+    "date_label": "Date",
+    "date_placeholder": "Date",
+    "submit": "Search",
+    "perks": {
+      "more": "More tournaments",
+      "community": "Active sports community",
+      "results": "Transparent results",
+      "platform": "Everything in one place"
+    }
+  },
+  "sports": {
+    "all": "All",
+    "futbol": "Football",
+    "tennis": "Tennis",
+    "shaxmat": "Chess",
+    "yugurish": "Running",
+    "suzish": "Swimming",
+    "bilyard": "Billiards",
+    "boshqa": "Other sports"
+  },
+  "cities": {
+    "tashkent": "Tashkent",
+    "samarkand": "Samarkand",
+    "bukhara": "Bukhara",
+    "namangan": "Namangan",
+    "online": "Online"
+  },
+  "status": {
+    "upcoming": "Upcoming",
+    "live": "In progress",
+    "finished": "Finished"
+  },
+  "format": {
+    "doubles": "Doubles",
+    "singles": "Singles",
+    "team": "Team"
+  },
+  "tournaments": {
+    "title": "Find the right tournament for you",
+    "status_label": "Tournament status",
+    "sport_label": "Sport",
+    "save": "Save",
+    "sponsor": "Sponsor",
+    "details": "Details",
+    "empty": "No tournaments match these filters.",
+    "clear": "Clear filters",
+    "names": {
+      "tennis-open": "Tennis Open",
+      "shaxmat-kubogi": "Chess Cup",
+      "shahar-yugurishi": "City Run",
+      "suzish-kubogi": "Swimming Cup",
+      "bilyard-turniri": "Billiards Tournament",
+      "basketbol-kubogi": "Basketball Cup",
+      "futbol-kubogi": "Football Cup"
+    }
+  },
+  "finished": {
+    "title": "The tournament is over. The history stays.",
+    "all": "All finished tournaments",
+    "winner": "Winner:",
+    "results": "See results",
+    "players": "{{count}} players",
+    "teams": "{{teams}} teams · {{count}} players"
+  },
+  "partners": {
+    "title": "Sponsors and partners",
+    "all": "All partners",
+    "main": {
+      "title": "Title sponsor",
+      "text": "The main supporter of our tournaments"
+    },
+    "prize": {
+      "title": "Prize partner",
+      "text": "Prizes for winners and participants"
+    },
+    "host": {
+      "title": "Host club",
+      "text": "Partners who host our tournaments"
+    }
+  },
+  "cta": {
+    "title": "Let’s grow sport together",
+    "text": "For new tournaments, wider opportunities and a more active sports community.",
+    "create": "Create a tournament",
+    "sponsor": "Become a sponsor"
+  },
+  "footer": {
+    "tagline": "Sport brings people together."
+  }
+}
