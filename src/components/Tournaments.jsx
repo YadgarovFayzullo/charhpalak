@@ -1,76 +1,94 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Arrow, Calendar, Heart, Image, Pin, SPORT_ICONS, User, Users } from './icons.jsx'
+import { BOT_URL, NO_FILTERS, SPORTS, STATUSES, TOURNAMENTS } from '../data.js'
 import { photo } from '../photos.js'
 
-const TABS = [
-  { id: 'k', label: 'Kutilayotgan' },
-  { id: 'd', label: 'Davom etayotgan' },
-  { id: 'y', label: 'Yakunlangan' },
-]
-
-const BADGE = {
-  k: { label: 'Kutilayotgan', cls: 'badge-upcoming' },
-  d: { label: 'Davom etayotgan', cls: 'badge-live' },
-  y: { label: 'Yakunlangan', cls: 'badge-done' },
+function matches(t, f) {
+  const q = f.q.trim().toLowerCase()
+  return (f.sport === 'all' || t.sport === f.sport)
+    && (!q || t.title.toLowerCase().includes(q))
+    && (!f.city || t.city === f.city)
+    && (!f.date || t.date >= f.date)
 }
 
-const CARDS = [
-  { s: 'k', img: 'chess', title: 'Shaxmat kubogi', meta: 'Toshkent · 10-noyabr · Yakka', foot: '32 / 64 ishtirokchi', cta: 'Yozilish' },
-  { s: 'k', img: 'billiardsPlayer', title: 'Pirat Cup 2026', meta: '«Pirat» bilyard klubi · 12-noyabr', foot: 'Sovrin: 5 000 000 so‘m', cta: 'Yozilish' },
-  { s: 'k', img: 'tennis', title: 'Kuzgi tennis ochiq turniri', meta: '«Olimp» korti · 20-noyabr', foot: '18 / 32 ishtirokchi', cta: 'Yozilish' },
-  { s: 'd', img: 'marathon', title: 'Shahar marafoni', meta: 'Samarqand · bugun', foot: '200+ yuguruvchi', cta: 'Jonli natijalar' },
-  { s: 'y', img: 'basketballCup', title: 'Basketbol kubogi', meta: '12 jamoa · 96 ishtirokchi', foot: 'G‘olib: Phoenix', cta: 'Natijalar' },
-]
+export default function Tournaments({ filters, setFilters }) {
+  const [status, setStatus] = useState('upcoming')
+  const [liked, setLiked] = useState({})
+  const [focus, setFocus] = useState(null)
+  const list = TOURNAMENTS.filter((t) => t.status === status && matches(t, filters))
+  const filtered = JSON.stringify(filters) !== JSON.stringify(NO_FILTERS)
 
-export default function Tournaments() {
-  const [tab, setTab] = useState('k')
-  const cards = CARDS.filter((c) => c.s === tab)
+  // "#t-<id>" (hero photos): open the card's tab, clear filters, scroll to it and highlight it.
+  useEffect(() => {
+    const open = () => {
+      const t = TOURNAMENTS.find((c) => `#t-${c.id}` === window.location.hash)
+      if (!t || t.status === 'finished') return
+      setStatus(t.status)
+      setFilters(NO_FILTERS)
+      setFocus(t.id)
+      requestAnimationFrame(() => document.getElementById(`t-${t.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }))
+    }
+    open()
+    window.addEventListener('hashchange', open)
+    return () => window.removeEventListener('hashchange', open)
+  }, [setFilters])
+
+  useEffect(() => {
+    if (!focus) return
+    const t = setTimeout(() => setFocus(null), 2400)
+    return () => clearTimeout(t)
+  }, [focus])
 
   return (
-    <section className="wrap section stack-32" id="tournaments">
-      <div className="section-head">
-        <div className="stack-14">
-          <span className="ey">Turnirlar</span>
-          <h2 className="d h2-lg">Bellashing. Yuting. Tarixda qoling.</h2>
-        </div>
-        <div className="tabs" role="tablist" aria-label="Turnir holati">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="tab"
-              aria-selected={tab === t.id}
-              className={tab === t.id ? 'chip on' : 'chip'}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
+    <section className="wrap section" id="tournaments">
+      <div className="sports" role="toolbar" aria-label="Sport turi">
+        {SPORTS.map((s) => {
+          const Icon = SPORT_ICONS[s.id]
+          return (
+            <button key={s.id} type="button" className={filters.sport === s.id ? 'sport on' : 'sport'} aria-pressed={filters.sport === s.id}
+              onClick={() => setFilters({ ...filters, sport: s.id })}>
+              <span className="sport-i"><Icon size={18} /></span>{s.label}
             </button>
+          )
+        })}
+      </div>
+
+      <div className="sec-head">
+        <h2>O‘zingizga mos turnirni toping</h2>
+        <div className="seg" role="tablist" aria-label="Turnir holati">
+          {STATUSES.map((s) => (
+            <button key={s.id} type="button" role="tab" aria-selected={status === s.id} className={status === s.id ? 'on' : ''} onClick={() => setStatus(s.id)}>{s.label}</button>
           ))}
         </div>
       </div>
 
-      <div className="t-grid" role="tabpanel">
-        {cards.map((c) => (
-          <a key={c.title} href="#" className="tc">
-            <div className="tc-media">
-              <img {...photo(c.img, 420)} loading="lazy" alt={c.title} />
-              <span className={`pill tc-badge ${BADGE[c.s].cls}`}>{BADGE[c.s].label}</span>
+      <div className="cards">
+        {list.map((t) => (
+          <article key={t.id} id={status === 'finished' ? undefined : `t-${t.id}`} className={focus === t.id ? 'tcard focus' : 'tcard'}>
+            <div className="tcard-media">
+              <img {...photo(t.img, 420)} loading="lazy" alt={t.title} />
+              <span className={t.status === 'finished' ? 'badge badge-done' : 'badge'}>{STATUSES.find((s) => s.id === t.status).label}</span>
+              <button type="button" className={liked[t.id] ? 'like on' : 'like'} aria-pressed={Boolean(liked[t.id])} aria-label="Saqlash"
+                onClick={() => setLiked({ ...liked, [t.id]: !liked[t.id] })}><Heart size={16} /></button>
             </div>
-            <div className="tc-body">
-              <b className="d tc-title">{c.title}</b>
-              <span className="tc-meta">{c.meta}</span>
-              <div className="tc-foot">
-                <span>{c.foot}</span>
-                <span className="tc-cta">{c.cta} →</span>
+            <div className="tcard-body">
+              <h3>{t.title}</h3>
+              <span className="format">{t.format === 'Individual' ? <User size={14} /> : <Users size={14} />}{t.format}</span>
+              <div className="meta"><span><Calendar size={16} />{t.dates}</span><span><Pin size={16} />{t.city}</span></div>
+              <div className="tcard-foot">
+                <span className="sponsor"><span className="sponsor-logo"><Image size={16} /></span>Homiy</span>
+                <a href={BOT_URL} className="btn btn-soft">Batafsil <Arrow size={16} /></a>
               </div>
             </div>
-          </a>
+          </article>
         ))}
       </div>
-
-      <div className="row">
-        <a href="#" className="btn bo">Barcha turnirlar</a>
-        <a href="#" className="btn btn-ghost">+ O‘z turniringizni o‘tkazing</a>
-      </div>
+      {list.length === 0 && (
+        <div className="empty">
+          Bu filtr bo‘yicha turnir topilmadi.
+          {filtered && <button type="button" className="btn btn-line" onClick={() => setFilters(NO_FILTERS)}>Filtrlarni tozalash</button>}
+        </div>
+      )}
     </section>
   )
 }

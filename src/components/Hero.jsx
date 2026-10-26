@@ -1,87 +1,76 @@
-import { Logo, Arrow, Check, Ball, Pin, Calendar, Search } from './icons.jsx'
+import { useState } from 'react'
+import { Bars, Calendar, Pin, Search, Shield, Trophy, Users } from './icons.jsx'
+import { CITIES, SPORTS } from '../data.js'
 import { photo } from '../photos.js'
 
-export const NAV = [
-  { label: 'O‘yinchilar', href: '#how' },
-  { label: 'Klublar', href: '#business' },
-  { label: 'Murabbiylar', href: '#coaches' },
-  { label: 'Turnirlar', href: '#tournaments' },
+// Diagonal photo strips; each opens the matching tournament card below.
+const STRIPS = [
+  { img: 'heroTennis', alt: 'Tennis turniri', href: '#t-tennis-open' },
+  { img: 'heroSwim', alt: 'Suzish kubogi', href: '#t-suzish-kubogi' },
+  { img: 'heroChess', alt: 'Shaxmat kubogi', href: '#t-shaxmat-kubogi' },
 ]
 
-const QUICK = [
-  { label: 'Sherik yoki raqib', href: '#how' },
-  { label: 'Sport joyi', href: '#business' },
-  { label: 'Murabbiy', href: '#coaches' },
-  { label: 'Turnir', href: '#tournaments' },
+const PERKS = [
+  { Icon: Trophy, label: 'Ko‘proq turnirlar' },
+  { Icon: Users, label: 'Faol sport hamjamiyati' },
+  { Icon: Bars, label: 'Shaffof natijalar' },
+  { Icon: Shield, label: 'Barchasi bir platformada' },
 ]
 
-const FIELDS = [
-  { id: 'sport', label: 'Sport turi', Icon: Ball, options: ['Bilyard', 'Futbol', 'Padel', 'Tennis', 'Kompyuter klubi'] },
-  { id: 'city', label: 'Shahar', Icon: Pin, options: ['Toshkent', 'Samarqand', 'Buxoro', 'Namangan'] },
-  { id: 'when', label: 'Qachon', Icon: Calendar, options: ['Bugun', 'Ertaga', 'Dam olish kuni'], narrow: true },
-]
+export default function Hero({ filters, onSearch }) {
+  const [form, setForm] = useState(filters)
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
-export default function Hero() {
+  const submit = (e) => {
+    e.preventDefault()
+    onSearch(form)
+    document.getElementById('tournaments')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section className="hero" id="top">
-      <header className="wrap header">
-        <a href="#top" className="d logo"><Logo />Charhpalak</a>
-        <nav className="nav header-nav" aria-label="Asosiy bo‘limlar">
-          {NAV.map((n) => <a key={n.label} href={n.href}>{n.label}</a>)}
-        </nav>
-        <div className="header-actions">
-          <a href="#how" className="login">Kirish</a>
-          <a href="#how" className="btn bp btn-sm">Boshlash</a>
-        </div>
-      </header>
-
-      <div className="wrap hero-grid">
-        <div className="hero-copy">
-          <h1 className="d hero-title">
-            Sport birlashtiradi. <span className="accent">Harakat sizdan boshlanadi.</span>
-          </h1>
-          <p className="mu hero-lead">
-            Sherik toping, joy bron qiling, birga o‘ynang. Bilyard, futbol, padel, tennis va boshqa sport turlari bir joyda.
-          </p>
-          <div className="row">
-            <a href="#search" className="btn bp btn-lg">O‘yin topish <Arrow /></a>
-            <a href="#business" className="btn bo btn-lg">Klubni ulash</a>
-          </div>
-        </div>
-
-        <div className="hero-media">
-          <div className="hero-ring" aria-hidden="true" />
-          <img {...photo('heroPadel', 480)} fetchPriority="high" alt="Padel o‘ynayotgan sportchi" className="hm-main" />
-          <img {...photo('heroSwim', 420)} alt="Basseynda suzayotgan sportchi" className="hm-top" />
-          <img {...photo('heroBasketball', 420)} alt="Basketbol o‘ynayotgan yigitlar" className="hm-bottom" />
-          <div className="card hero-toast">
-            <span className="toast-icon"><Check /></span>
-            <span className="toast-text">
-              <b>Bron tasdiqlandi</b>
-              <span className="mu">«Pirat», bugun 19:00</span>
-            </span>
-          </div>
-        </div>
+      <div className="hero-photos" aria-hidden="false">
+        {STRIPS.map((s, i) => (
+          <a key={s.img} href={s.href} className={`strip strip-${i}`} aria-label={s.alt}>
+            <img {...photo(s.img, 420)} fetchpriority={i === 0 ? 'high' : undefined} alt="" />
+          </a>
+        ))}
       </div>
 
-      <div className="wrap search-wrap" id="search">
-        <form className="search" onSubmit={(e) => e.preventDefault()}>
-          {FIELDS.map(({ id, label, Icon, options, narrow }) => (
-            <label key={id} htmlFor={id} className={narrow ? 'field field-narrow' : 'field'}>
-              <Icon />
-              <span className="field-body">
-                {label}
-                <select id={id}>
-                  {options.map((o) => <option key={o}>{o}</option>)}
-                </select>
-              </span>
-            </label>
-          ))}
-          <button type="submit" className="btn bp search-btn"><Search />Qidirish</button>
+      <div className="wrap hero-in">
+        <h1 className="hero-title">
+          Sizning sportingiz.<br /><span className="lime">Sizning turniringiz.</span>
+        </h1>
+        <p className="hero-lead">Turnir toping, bellashuvlarni kuzating va natijalar tarixini ko‘ring.</p>
+
+        <form className="search" onSubmit={submit} role="search">
+          <label className="field field-q">
+            <Search />
+            <input value={form.q} onChange={set('q')} placeholder="Turnir qidirish" aria-label="Turnir qidirish" />
+          </label>
+          <label className="field">
+            <select value={form.sport} onChange={set('sport')} aria-label="Sport turi">
+              {SPORTS.map((s) => <option key={s.id} value={s.id}>{s.id === 'all' ? 'Barcha sport turlari' : s.label}</option>)}
+            </select>
+          </label>
+          <label className="field">
+            <Pin />
+            <select value={form.city} onChange={set('city')} aria-label="Shahar">
+              <option value="">Shahar yoki onlayn</option>
+              {CITIES.map((c) => <option key={c}>{c}</option>)}
+            </select>
+          </label>
+          <label className="field field-date">
+            <Calendar />
+            <input type="date" value={form.date} onChange={set('date')} aria-label="Sana" />
+            {!form.date && <span className="ph">Sana</span>}
+          </label>
+          <button type="submit" className="btn btn-lime btn-search"><Search />Qidirish</button>
         </form>
-        <div className="quick">
-          {QUICK.map((q) => <a key={q.label} href={q.href} className="chip">{q.label}</a>)}
-        </div>
+
+        <ul className="perks">
+          {PERKS.map(({ Icon, label }) => <li key={label}><Icon />{label}</li>)}
+        </ul>
       </div>
     </section>
   )

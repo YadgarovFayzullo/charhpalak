@@ -1,25 +1,26 @@
+import { useState } from 'react'
+import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
-import Steps from './components/Steps.jsx'
-import Business from './components/Business.jsx'
-import Coaches from './components/Coaches.jsx'
 import Tournaments from './components/Tournaments.jsx'
+import Finished from './components/Finished.jsx'
 import Partners from './components/Partners.jsx'
-import Shop from './components/Shop.jsx'
-import Faq from './components/Faq.jsx'
+import Cta from './components/Cta.jsx'
 import Footer from './components/Footer.jsx'
+import { NO_FILTERS } from './data.js'
 
 export default function App() {
+  // Shared by the hero search and the sport chips above the tournament list.
+  const [filters, setFilters] = useState(NO_FILTERS)
+
   return (
     <div className="page">
-      <Hero />
+      <Header />
       <main>
-        <Steps />
-        <Business />
-        <Coaches />
-        <Tournaments />
+        <Hero filters={filters} onSearch={setFilters} />
+        <Tournaments filters={filters} setFilters={setFilters} />
+        <Finished />
         <Partners />
-        <Shop />
-        <Faq />
+        <Cta />
       </main>
       <Footer />
     </div>
