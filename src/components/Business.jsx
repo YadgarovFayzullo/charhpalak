@@ -21,10 +21,10 @@ export default function Business() {
     <section className="business" id="business">
       <div className="wrap section biz-grid">
         <div className="stack-22">
-          <span className="ey">Klublar uchun · KiGo Business</span>
+          <span className="ey">Klublar uchun · Charhpalak Business</span>
           <h2 className="d h2-lg">Klubingizni bir joydan boshqaring.</h2>
           <p className="mu lead-18">
-            Bronlar, mijozlar, kassa, bar va hisobotlar bitta tizimda. Klubingiz KiGo’da ko‘rinadi va yangi mijozlar o‘zi keladi.
+            Bronlar, mijozlar, kassa, bar va hisobotlar bitta tizimda. Klubingiz Charhpalak’da ko‘rinadi va yangi mijozlar o‘zi keladi.
           </p>
           <div className="row row-center">
             <a href="#" className="btn bp">Klubni ulash <Arrow /></a>

@@ -24,7 +24,7 @@ export default function Hero() {
   return (
     <section className="hero" id="top">
       <header className="wrap header">
-        <a href="#top" className="d logo"><Logo />KiGo</a>
+        <a href="#top" className="d logo"><Logo />Charhpalak</a>
         <nav className="nav header-nav" aria-label="Asosiy bo‘limlar">
           {NAV.map((n) => <a key={n.label} href={n.href}>{n.label}</a>)}
         </nav>

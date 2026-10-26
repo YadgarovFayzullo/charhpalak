@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mu footer-bottom">
-          <span>© 2026 KiGo · ООО «INVENTUM»</span>
+          <span>© 2026 Charhpalak · ООО «INVENTUM»</span>
           <span>Ommaviy oferta · Maxfiylik · O‘zbekcha / Русский</span>
         </div>
       </div>
