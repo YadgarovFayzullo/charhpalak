@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Bars, Calendar, Pin, Search, Shield, Trophy, Users } from './icons.jsx'
+import Select from './Select.jsx'
 import { CITIES, SPORTS } from '../data.js'
 import { photo } from '../photos.js'
 
@@ -50,18 +51,20 @@ export default function Hero({ filters, onSearch }) {
             <Search />
             <input value={form.q} onChange={set('q')} placeholder={t('hero.search_placeholder')} aria-label={t('hero.search_label')} />
           </label>
-          <label className="field">
-            <select value={form.sport} onChange={set('sport')} aria-label={t('hero.sport_label')}>
-              {SPORTS.map((s) => <option key={s} value={s}>{s === 'all' ? t('hero.all_sports') : t(`sports.${s}`)}</option>)}
-            </select>
-          </label>
-          <label className="field">
-            <Pin />
-            <select value={form.city} onChange={set('city')} aria-label={t('hero.city_label')}>
-              <option value="">{t('hero.city_placeholder')}</option>
-              {CITIES.map((c) => <option key={c} value={c}>{t(`cities.${c}`)}</option>)}
-            </select>
-          </label>
+          <Select
+            label={t('hero.sport_label')}
+            value={form.sport}
+            emptyValue="all"
+            onChange={(sport) => setForm({ ...form, sport })}
+            options={SPORTS.map((s) => ({ value: s, label: s === 'all' ? t('hero.all_sports') : t(`sports.${s}`) }))}
+          />
+          <Select
+            label={t('hero.city_label')}
+            icon={<Pin />}
+            value={form.city}
+            onChange={(city) => setForm({ ...form, city })}
+            options={[{ value: '', label: t('hero.city_placeholder') }, ...CITIES.map((c) => ({ value: c, label: t(`cities.${c}`) }))]}
+          />
           <label className="field field-date">
             <Calendar />
             <input type="date" value={form.date} onChange={set('date')} aria-label={t('hero.date_label')} />

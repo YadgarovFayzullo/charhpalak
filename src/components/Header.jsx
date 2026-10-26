@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { Chevron, Globe, Logo, Plus } from './icons.jsx'
+import { Globe, Logo, Plus } from './icons.jsx'
+import Select from './Select.jsx'
 import { BOT_URL } from '../data.js'
 import { LANGUAGES } from '../i18n.js'
 
@@ -19,15 +20,17 @@ export default function Header() {
           {NAV.map((n) => <a key={n.key} href={n.href}>{t(`header.nav.${n.key}`)}</a>)}
         </nav>
         <div className="header-actions">
-          <label className="lang">
-            <Globe size={18} />
-            <select aria-label={t('header.language')} value={i18n.resolvedLanguage} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-              {LANGUAGES.map((l) => <option key={l.code} value={l.code} lang={l.code} title={l.name}>{l.label}</option>)}
-            </select>
-            <Chevron size={14} />
-          </label>
+          <Select
+            variant="lang"
+            align="end"
+            label={t('header.language')}
+            icon={<Globe size={18} />}
+            value={i18n.resolvedLanguage}
+            onChange={(code) => i18n.changeLanguage(code)}
+            options={LANGUAGES.map((l) => ({ value: l.code, label: l.name, short: l.label, lang: l.code }))}
+          />
           <a href={BOT_URL} className="btn btn-line">{t('header.login')}</a>
-          <a href={BOT_URL} className="btn btn-lime"><Plus size={18} />{t('header.create')}</a>
+          <a href={BOT_URL} className="btn btn-lime" aria-label={t('header.create')}><Plus size={18} /><span className="btn-label">{t('header.create')}</span></a>
         </div>
       </div>
     </header>
